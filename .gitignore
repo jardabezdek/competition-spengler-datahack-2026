@@ -227,3 +227,10 @@ docs/
 
 # macOS files
 *.DS_Store
+
+# Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
