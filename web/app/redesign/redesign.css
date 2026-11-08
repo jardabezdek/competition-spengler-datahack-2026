@@ -305,14 +305,6 @@
   grid-column: 1 / -1;
 }
 
-.rd-card.main {
-  grid-column: span 7;
-}
-
-.rd-card.side {
-  grid-column: span 5;
-}
-
 .rd-card.half {
   grid-column: span 6;
 }
@@ -615,37 +607,6 @@
   }
 }
 
-.rd-goalies {
-  display: grid;
-  gap: 24px;
-}
-
-.rd-goalie {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.rd-goalie strong {
-  display: block;
-  color: var(--navy);
-}
-
-.rd-goalie > div > span {
-  color: #6b7280;
-  font-size: 13px;
-}
-
-.rd-ring {
-  flex: none;
-  width: 92px;
-  height: 92px;
-  padding: 5px;
-  border-radius: 50%;
-  background: conic-gradient(var(--ice) var(--pct), #e5e7eb 0);
-}
-
-.rd-ring img,
 .rd-avatar img,
 .rd-player-photo img {
   display: block;
@@ -655,27 +616,6 @@
   background: #e8eef2;
   object-fit: cover;
   object-position: top;
-}
-
-.rd-goalie dl {
-  display: flex;
-  gap: 20px;
-  margin: 12px 0 0;
-}
-
-.rd-goalie dt {
-  color: #94a3b8;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-}
-
-.rd-goalie dd {
-  margin: 2px 0 0;
-  color: var(--navy);
-  font-size: 18px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
 }
 
 .rd-leaders {
@@ -978,8 +918,6 @@
 }
 
 @media (max-width: 900px) {
-  .rd-card.main,
-  .rd-card.side,
   .rd-card.half {
     grid-column: 1 / -1;
   }
