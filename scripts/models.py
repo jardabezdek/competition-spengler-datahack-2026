@@ -80,6 +80,7 @@ class ClearType(StrEnum):
 class TeamStat(StrEnum):
     SHOTS_ON_GOAL = "SOG"
     EXPECTED_GOALS = "XG"
+    GOALS_ABOVE_EXPECTED = "GAx"
     FACEOFF_WINS = "FOW"
     FACEOFF_PERCENTAGE = "FO%"
     POWER_PLAYS = "PP"

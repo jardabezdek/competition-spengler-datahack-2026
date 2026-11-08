@@ -85,6 +85,7 @@ def stat_rows() -> str:
     rows = [
         (TeamStat.SHOTS_ON_GOAL, "%d", "home_sog", "away_sog"),
         (TeamStat.EXPECTED_GOALS, "%.3f", "home_xg", "away_xg"),
+        (TeamStat.GOALS_ABOVE_EXPECTED, "%.3f", "home_g - home_xg", "away_g - away_xg"),
         (TeamStat.FACEOFF_WINS, "%d", "home_fow", "away_fow"),
         (
             TeamStat.FACEOFF_PERCENTAGE,
@@ -184,6 +185,7 @@ totals AS (
         CASE WHEN grouping(period) = 1 THEN 'all' ELSE period END AS period,
         {team_count("sog", ON_GOAL)},
         {team_xg("xg", f"EventType = '{EventType.SHOT}'")},
+        {team_count("g", f"EventType = '{EventType.GOAL}'")},
         {team_count("fow", f"EventType = '{EventType.FACEOFF}'")},
         {power_plays(Team.HOME, Strength.HOME_POWERPLAY)},
         {power_plays(Team.AWAY, Strength.AWAY_POWERPLAY)},
