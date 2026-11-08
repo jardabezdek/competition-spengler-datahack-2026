@@ -1,6 +1,6 @@
+import { PuckIcon, WhistleIcon } from "@/components/icons";
 import { game, logos, type TickerItem } from "@/lib/game";
 import { periodLabels, periodOf, periodScores, plays } from "@/lib/timeline";
-import { PuckIcon, WhistleIcon } from "@/components/ticker";
 
 function PlayCard({ item }: { item: TickerItem }) {
   const goal = item.type === "goal";

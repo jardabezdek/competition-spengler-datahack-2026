@@ -2,15 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { TeamTabs } from "@/components/team-tabs";
+import { formatPlusMinus } from "@/lib/format";
 import { goalieStats, skaterStats, teamStats, type Side } from "@/lib/game";
 
 function barWidth(value: number, other: number) {
   const scale = Math.max(value, other) + 20;
   return (value / scale) * 100;
-}
-
-export function formatPlusMinus(value: number) {
-  return value > 0 ? `+${value}` : String(value);
 }
 
 function Bar({ side, value, other, grown }: { side: Side; value: number; other: number; grown: boolean }) {

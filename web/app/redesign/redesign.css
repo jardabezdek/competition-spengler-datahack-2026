@@ -850,6 +850,7 @@
   height: 26px;
   border-radius: 50%;
   background: var(--navy);
+  color: #fff;
 }
 
 .rd-play.goal .rd-icon {

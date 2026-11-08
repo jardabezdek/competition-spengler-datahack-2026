@@ -2,10 +2,10 @@
 
 import { banners, codes } from "@/lib/game";
 import { useHashTab } from "@/lib/use-hash-tab";
-import { Lineup } from "@/components/lineup";
+import { Lineup } from "@/components/current/lineup";
+import { Stats } from "@/components/current/stats";
+import { Ticker } from "@/components/current/ticker";
 import { MatchStory } from "@/components/story";
-import { Stats } from "@/components/stats";
-import { Ticker } from "@/components/ticker";
 
 const tabs = [
   { id: "ticker", label: "Ticker" },

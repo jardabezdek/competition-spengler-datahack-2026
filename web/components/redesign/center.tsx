@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { banners, logos } from "@/lib/game";
-import { useHashTab } from "@/lib/use-hash-tab";
-import { score } from "@/lib/timeline";
-import { MatchStory } from "@/components/story";
 import { Lineups } from "@/components/redesign/lineups";
 import { Overview } from "@/components/redesign/overview";
 import { PlayByPlay } from "@/components/redesign/play-by-play";
 import { PlayerStats } from "@/components/redesign/player-stats";
-import type { FlowPlay } from "@/lib/flow";
+import { MatchStory } from "@/components/story";
+import { banners, logos } from "@/lib/game";
+import type { FlowPlay } from "@/lib/game-flow";
+import { score } from "@/lib/timeline";
+import { useHashTab } from "@/lib/use-hash-tab";
 
 const tabs = [
   { id: "overview", label: "Overview" },

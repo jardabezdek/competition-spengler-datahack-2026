@@ -1,6 +1,6 @@
 /** Game-center content for the 31 Dec 2025 final, taken from the public Spengler Cup page. */
 
-export const SOURCE_URL =
+const SOURCE_URL =
   "https://www.spenglercup.ch/en/game/spengler-cup/playoff-final/2025-12-31_us-collegiate-selects_hc-davos";
 
 export const logos = {
@@ -129,7 +129,7 @@ export type Player = {
   position: Position;
 };
 
-export type Line = {
+type Line = {
   title: string;
   players: Player[];
 };
@@ -293,7 +293,7 @@ export const lineup: Record<Side, Line[]> = {
   ],
 };
 
-export type TeamStat = {
+type TeamStat = {
   key: string;
   label: string;
   home: number;
@@ -317,7 +317,7 @@ export type SkaterStat = {
   toi: string;
 };
 
-export type GoalieStat = {
+type GoalieStat = {
   name: string;
   number: number;
   shotsAgainst: number;

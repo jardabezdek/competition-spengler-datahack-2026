@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { formatPlusMinus } from "@/components/stats";
 import { TeamTabs } from "@/components/team-tabs";
+import { formatPlusMinus } from "@/lib/format";
 import { goalieStats, photos, skaterStats, type Side, type SkaterStat } from "@/lib/game";
 import { minutes } from "@/lib/timeline";
 
