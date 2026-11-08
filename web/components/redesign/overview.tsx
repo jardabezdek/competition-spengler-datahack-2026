@@ -1,31 +1,65 @@
+import { useState } from "react";
 import { GameFlow } from "@/components/redesign/game-flow";
-import { game, logos, photos, sides, skaterStats, teamStats, type Side } from "@/lib/game";
+import { game, logos, photos, sides, skaterStats, type Side } from "@/lib/game";
 import type { FlowPlay } from "@/lib/game-flow";
+import { lead, periods, split, type TeamStat } from "@/lib/team-stats";
 
-function Comparison() {
+function Comparison({ stats }: { stats: TeamStat[] }) {
+  const [period, setPeriod] = useState("all");
+  const [open, setOpen] = useState<string | null>(null);
+  const rows = stats.filter((stat) => stat.period === period);
+
   return (
     <section className="rd-card full">
-      <div className="rd-card-title">
-        <img src={logos.home} alt={game.home} />
+      <div className="rd-card-title center">
         <h3>Team comparison</h3>
-        <img src={logos.away} alt={game.away} />
+      </div>
+      <div className="rd-period-switch" role="tablist" aria-label="Period">
+        {periods.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            role="tab"
+            aria-selected={period === item.id}
+            onClick={() => setPeriod(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
       </div>
       <div className="rd-compare">
-        {teamStats.map((stat) => {
-          const total = stat.home + stat.away || 1;
+        {rows.map((stat) => {
+          const widths = split(stat.home, stat.away);
           return (
-            <div key={stat.key}>
+            <div key={stat.id}>
               <div className="rd-compare-head">
-                <strong className={stat.home > stat.away ? "lead" : undefined}>{stat.home}</strong>
+                <strong className={lead(stat.home, stat.away)}>{stat.homeLabel}</strong>
                 <span>
                   {stat.label}
-                  <abbr>{stat.key}</abbr>
+                  {stat.description && (
+                    <button
+                      type="button"
+                      className="rd-info"
+                      aria-expanded={open === stat.id}
+                      aria-label={`About ${stat.label}`}
+                      onClick={() => setOpen(open === stat.id ? null : stat.id)}
+                    >
+                      i
+                    </button>
+                  )}
                 </span>
-                <strong className={stat.away > stat.home ? "lead" : undefined}>{stat.away}</strong>
+                <strong className={lead(stat.away, stat.home)}>{stat.awayLabel}</strong>
               </div>
-              <div className="rd-split">
-                <span className="home" style={{ width: `${(stat.home / total) * 100}%` }} />
-                <span className="away" style={{ width: `${(stat.away / total) * 100}%` }} />
+              {open === stat.id && <p className="rd-stat-note">{stat.description}</p>}
+              <div className={widths ? "rd-split" : "rd-split empty"}>
+                {widths ? (
+                  <>
+                    <span className="home" style={{ width: `${widths[0]}%` }} />
+                    <span className="away" style={{ width: `${widths[1]}%` }} />
+                  </>
+                ) : (
+                  <span />
+                )}
               </div>
             </div>
           );
@@ -67,11 +101,11 @@ function Leaders({ side }: { side: Side }) {
   );
 }
 
-export function Overview({ flow }: { flow: FlowPlay[] }) {
+export function Overview({ flow, stats }: { flow: FlowPlay[]; stats: TeamStat[] }) {
   return (
     <div className="rd-grid">
       <GameFlow plays={flow} />
-      <Comparison />
+      <Comparison stats={stats} />
       {sides.map((side) => (
         <Leaders key={side} side={side} />
       ))}

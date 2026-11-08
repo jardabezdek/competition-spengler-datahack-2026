@@ -1,5 +1,5 @@
 .rd-wrap {
-  width: min(1200px, calc(100% - 32px));
+  width: min(1000px, calc(100% - 32px));
   margin: 0 auto;
 }
 
@@ -326,6 +326,10 @@
   justify-content: flex-start;
 }
 
+.rd-card-title.center {
+  justify-content: center;
+}
+
 .rd-card-title h3 {
   margin: 0;
   font: inherit;
@@ -542,20 +546,27 @@
 
 .rd-compare {
   display: grid;
-  gap: 24px;
+  gap: 40px;
+  width: min(800px, 100%);
+  margin-inline: auto;
+}
+
+.rd-compare > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: 16px;
+  align-items: baseline;
 }
 
 .rd-compare-head {
-  display: grid;
-  grid-template-columns: 64px 1fr 64px;
-  align-items: baseline;
-  margin-bottom: 10px;
+  display: contents;
 }
 
 .rd-compare-head strong {
   color: #94a3b8;
   font-size: 24px;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .rd-compare-head strong:last-child {
@@ -573,17 +584,69 @@
   text-align: center;
 }
 
-.rd-compare-head abbr {
-  margin-left: 8px;
-  color: #94a3b8;
+.rd-period-switch {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: -8px 0 32px;
+}
+
+.rd-period-switch button {
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: #eef3f6;
+  color: #4b5563;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.rd-period-switch button[aria-selected="true"] {
+  background: var(--navy);
+  color: #fff;
+}
+
+.rd-info {
+  margin-left: 6px;
+  border: 1px solid #d5dee6;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  background: #fff;
+  color: #64748b;
   font-size: 11px;
-  text-decoration: none;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 14px;
+  cursor: pointer;
+}
+
+.rd-info[aria-expanded="true"] {
+  border-color: var(--navy);
+  color: var(--navy);
+}
+
+.rd-stat-note {
+  grid-column: 2;
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .rd-split {
+  grid-column: 1 / -1;
   display: flex;
   gap: 4px;
   height: 10px;
+  margin-top: 16px;
 }
 
 .rd-split span {
@@ -599,6 +662,12 @@
 .rd-split .away {
   background: var(--navy);
   transform-origin: left;
+}
+
+.rd-split.empty span {
+  width: 100%;
+  background: repeating-linear-gradient(-45deg, #e8eef2, #e8eef2 4px, #f7f9fb 4px, #f7f9fb 8px);
+  animation: none;
 }
 
 @keyframes rd-grow {
