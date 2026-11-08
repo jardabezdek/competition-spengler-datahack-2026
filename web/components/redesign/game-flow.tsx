@@ -7,7 +7,7 @@ function Marker({ row }: { row: FlowRow }) {
     return (
       <span className="rd-puck">
         <PuckIcon size={16} />
-        {row.score.replace(":", " : ")}
+        {row.score.replace(":", " - ")}
       </span>
     );
   }

@@ -141,7 +141,7 @@
 }
 
 .rd-score span + span::before {
-  content: ":";
+  content: "-";
   margin: 0 20px;
   color: #fff;
   font-size: 0.55em;

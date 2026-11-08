@@ -40,7 +40,7 @@ export function RedesignCenter({ flow }: { flow: FlowPlay[] }) {
         <div className="rd-wrap rd-mini">
           <img src={logos.home} alt="" />
           <strong>
-            {score[0]} : {score[1]}
+            {score[0]} - {score[1]}
           </strong>
           <img src={logos.away} alt="" />
         </div>
