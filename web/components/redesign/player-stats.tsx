@@ -21,7 +21,7 @@ const sortValue = (player: SkaterStat, key: SortKey) => (key === "toi" ? minutes
 function PlayerCell({ side, name, number }: { side: Side; name: string; number: number }) {
   return (
     <td className="rd-who">
-      <span className="rd-avatar small">
+      <span className="rd-avatar">
         <img src={photos[side][number]} alt="" />
       </span>
       {name}

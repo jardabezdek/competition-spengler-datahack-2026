@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { GameFlow } from "@/components/redesign/game-flow";
-import { game, logos, photos, sides, skaterStats, type Side } from "@/lib/game";
 import type { FlowPlay } from "@/lib/game-flow";
 import { lead, periods, split, type TeamStat } from "@/lib/team-stats";
 
@@ -10,7 +9,7 @@ function Comparison({ stats }: { stats: TeamStat[] }) {
   const rows = stats.filter((stat) => stat.period === period);
 
   return (
-    <section className="rd-card full">
+    <section className="rd-card">
       <div className="rd-card-title center">
         <h3>Team comparison</h3>
       </div>
@@ -69,46 +68,11 @@ function Comparison({ stats }: { stats: TeamStat[] }) {
   );
 }
 
-function Leaders({ side }: { side: Side }) {
-  const leaders = [...skaterStats[side]].sort((a, b) => b.points - a.points || b.goals - a.goals).slice(0, 3);
-  return (
-    <section className="rd-card half">
-      <div className="rd-card-title start">
-        <img src={logos[side]} alt="" />
-        <h3>Top performers · {game[side]}</h3>
-      </div>
-      <ol className="rd-leaders">
-        {leaders.map((player, index) => (
-          <li key={player.number} className="rd-leader">
-            <span className="rd-rank">{index + 1}</span>
-            <span className="rd-avatar">
-              <img src={photos[side][player.number]} alt="" />
-            </span>
-            <span>
-              <strong>{player.name}</strong>
-              <small>
-                #{player.number} · {player.goals} G · {player.assists} A
-              </small>
-            </span>
-            <span className="rd-points">
-              {player.points}
-              <small>PTS</small>
-            </span>
-          </li>
-        ))}
-      </ol>
-    </section>
-  );
-}
-
 export function Overview({ flow, stats }: { flow: FlowPlay[]; stats: TeamStat[] }) {
   return (
-    <div className="rd-grid">
+    <div className="rd-stack">
       <GameFlow plays={flow} />
       <Comparison stats={stats} />
-      {sides.map((side) => (
-        <Leaders key={side} side={side} />
-      ))}
     </div>
   );
 }

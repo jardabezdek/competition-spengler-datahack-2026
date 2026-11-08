@@ -60,7 +60,7 @@ function Event({ row }: { row: FlowRow }) {
 export function GameFlow({ plays }: { plays: FlowPlay[] }) {
   const feed = flowRows(plays);
   return (
-    <section className="rd-card full">
+    <section className="rd-card">
       <div className="rd-flow">
         {periodLabels.map((label, period) => (
           <section key={label}>
