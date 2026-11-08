@@ -183,6 +183,7 @@
 }
 
 .rd-mini {
+  --mini-num-gap: 24px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
@@ -223,6 +224,14 @@
   font-size: 36px;
   font-variant-numeric: tabular-nums;
   line-height: 1;
+}
+
+.rd-mini-side.home .rd-mini-num {
+  margin-left: var(--mini-num-gap);
+}
+
+.rd-mini-side.away .rd-mini-num {
+  margin-right: var(--mini-num-gap);
 }
 
 .rd-tabs,
@@ -1204,6 +1213,7 @@
   }
 
   .rd-mini {
+    --mini-num-gap: 18px;
     padding: 0 16px;
   }
 
