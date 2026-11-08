@@ -6,10 +6,23 @@ import { Overview } from "@/components/redesign/overview";
 import { PlayByPlay } from "@/components/redesign/play-by-play";
 import { PlayerStats } from "@/components/redesign/player-stats";
 import { MatchStory } from "@/components/story";
-import { banners, logos } from "@/lib/game";
+import { banners, game, logos, type Side } from "@/lib/game";
 import type { FlowPlay } from "@/lib/game-flow";
 import { score } from "@/lib/timeline";
 import { useHashTab } from "@/lib/use-hash-tab";
+
+function MiniTeam({ side, short, goals }: { side: Side; short: string; goals: number }) {
+  return (
+    <span className={`rd-mini-side ${side}`}>
+      <span className="rd-mini-name">
+        <span className="rd-mini-full">{game[side]}</span>
+        <span className="rd-mini-short">{short}</span>
+      </span>
+      <img src={logos[side]} alt="" />
+      <span className="rd-mini-num">{goals}</span>
+    </span>
+  );
+}
 
 const tabs = [
   { id: "overview", label: "Overview" },
@@ -38,11 +51,9 @@ export function RedesignCenter({ flow }: { flow: FlowPlay[] }) {
       <div ref={sentinel} />
       <div className={`rd-scorebar${stuck ? " stuck" : ""}`} aria-hidden="true">
         <div className="rd-wrap rd-mini">
-          <img src={logos.home} alt="" />
-          <strong>
-            {score[0]} - {score[1]}
-          </strong>
-          <img src={logos.away} alt="" />
+          <MiniTeam side="home" short="USCS" goals={score[0]} />
+          <span className="rd-mini-dash">-</span>
+          <MiniTeam side="away" short="HCD" goals={score[1]} />
         </div>
       </div>
       <nav className="rd-tabbar" aria-label="Game center">
