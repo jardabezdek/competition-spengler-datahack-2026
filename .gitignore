@@ -222,8 +222,9 @@ __marimo__/
 # data/ folder
 data/
 
-# docs/ folder
-docs/
+# docs/ folder: ignore everything except the data dictionary
+docs/*
+!docs/data_dictionary.md
 
 # macOS files
 *.DS_Store
