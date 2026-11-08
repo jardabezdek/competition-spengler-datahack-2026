@@ -4,10 +4,12 @@ import { periodLabels } from "@/lib/timeline";
 
 function Marker({ row }: { row: FlowRow }) {
   if (row.type === "goal") {
+    const score = row.score.replace(":", " - ");
+    const puck = <PuckIcon size={16} />;
     return (
       <span className="rd-puck">
-        <PuckIcon size={16} />
-        {row.score.replace(":", " - ")}
+        {row.side === "home" ? score : puck}
+        {row.side === "home" ? puck : score}
       </span>
     );
   }

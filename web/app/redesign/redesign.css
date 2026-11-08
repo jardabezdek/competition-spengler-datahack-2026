@@ -476,6 +476,10 @@
   line-height: 1;
 }
 
+.rd-beat.home .rd-puck {
+  padding: 0 8px 0 10px;
+}
+
 .rd-mins {
   display: inline-flex;
   align-items: center;
@@ -1293,6 +1297,10 @@
     padding: 0 6px 0 4px;
     gap: 4px;
     font-size: 12px;
+  }
+
+  .rd-beat.home .rd-puck {
+    padding: 0 4px 0 6px;
   }
 
   .rd-beat-name {
