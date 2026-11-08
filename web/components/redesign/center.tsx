@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { GameFlow } from "@/components/redesign/game-flow";
 import { Lineups } from "@/components/redesign/lineups";
-import { Overview } from "@/components/redesign/overview";
 import { PlayerStats } from "@/components/redesign/player-stats";
+import { TeamStats } from "@/components/redesign/team-stats";
 import { MatchStory } from "@/components/story";
 import { banners, game, logos, type Side } from "@/lib/game";
 import type { FlowPlay } from "@/lib/game-flow";
@@ -26,6 +27,7 @@ function MiniTeam({ side, short, goals }: { side: Side; short: string; goals: nu
 
 const tabs = [
   { id: "overview", label: "Overview" },
+  { id: "team", label: "Team stats" },
   { id: "lineups", label: "Lineups" },
   { id: "stats", label: "Player stats" },
   { id: "story", label: "Report & Preview" },
@@ -76,7 +78,8 @@ export function RedesignCenter({ flow, stats }: { flow: FlowPlay[]; stats: TeamS
         </div>
       </nav>
       <main className="rd-wrap rd-main" id="rd-panel" role="tabpanel" aria-labelledby={`rd-tab-${tab}`}>
-        {tab === "overview" && <Overview flow={flow} stats={stats} />}
+        {tab === "overview" && <GameFlow plays={flow} />}
+        {tab === "team" && <TeamStats stats={stats} />}
         {tab === "lineups" && <Lineups />}
         {tab === "stats" && <PlayerStats />}
         {tab === "story" && (

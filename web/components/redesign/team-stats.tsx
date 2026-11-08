@@ -1,18 +1,15 @@
+"use client";
+
 import { useState } from "react";
-import { GameFlow } from "@/components/redesign/game-flow";
-import type { FlowPlay } from "@/lib/game-flow";
 import { lead, periods, split, type TeamStat } from "@/lib/team-stats";
 
-function Comparison({ stats }: { stats: TeamStat[] }) {
+export function TeamStats({ stats }: { stats: TeamStat[] }) {
   const [period, setPeriod] = useState("all");
   const [open, setOpen] = useState<string | null>(null);
   const rows = stats.filter((stat) => stat.period === period);
 
   return (
     <section className="rd-card">
-      <div className="rd-card-title center">
-        <h3>Team comparison</h3>
-      </div>
       <div className="rd-period-switch" role="tablist" aria-label="Period">
         {periods.map((item) => (
           <button
@@ -65,14 +62,5 @@ function Comparison({ stats }: { stats: TeamStat[] }) {
         })}
       </div>
     </section>
-  );
-}
-
-export function Overview({ flow, stats }: { flow: FlowPlay[]; stats: TeamStat[] }) {
-  return (
-    <div className="rd-stack">
-      <GameFlow plays={flow} />
-      <Comparison stats={stats} />
-    </div>
   );
 }

@@ -4,7 +4,7 @@ import type { TeamStat } from "@/lib/team-stats";
 
 const twoDecimals = new Intl.NumberFormat("en", { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: false });
 
-const hidden = new Set(["FOW", "PP", "SOGA", "SV"]);
+const order = ["SOG", "XG", "GAx", "PP%", "PIM", "FO%", "TK", "GV", "CZE", "CZX", "BKS", "SV%", "XGA", "GSAx"];
 
 function dictionary() {
   const labels = new Map<string, { label: string; description: string }>();
@@ -48,7 +48,8 @@ function annotate(stats: TeamStat[]) {
     "SV%": (_, side) => [value("SV", side), value("SOGA", side)],
   };
   return stats
-    .filter((stat) => !hidden.has(stat.id))
+    .filter((stat) => order.includes(stat.id))
+    .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
     .map((stat) => {
       const fraction = fractions[stat.id];
       if (!fraction) return stat;
