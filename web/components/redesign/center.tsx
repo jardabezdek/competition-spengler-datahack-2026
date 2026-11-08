@@ -27,8 +27,8 @@ function MiniTeam({ side, short, goals }: { side: Side; short: string; goals: nu
 
 const tabs = [
   { id: "overview", label: "Overview" },
-  { id: "team", label: "Team stats" },
   { id: "lineups", label: "Lineups" },
+  { id: "team", label: "Team stats" },
   { id: "stats", label: "Player stats" },
   { id: "story", label: "Report & Preview" },
 ] as const;
