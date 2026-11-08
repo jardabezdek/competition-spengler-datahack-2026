@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Lineups } from "@/components/redesign/lineups";
 import { Overview } from "@/components/redesign/overview";
-import { PlayByPlay } from "@/components/redesign/play-by-play";
 import { PlayerStats } from "@/components/redesign/player-stats";
 import { MatchStory } from "@/components/story";
 import { banners, game, logos, type Side } from "@/lib/game";
@@ -26,7 +25,6 @@ function MiniTeam({ side, short, goals }: { side: Side; short: string; goals: nu
 
 const tabs = [
   { id: "overview", label: "Overview" },
-  { id: "plays", label: "Play-by-play" },
   { id: "lineups", label: "Lineups" },
   { id: "stats", label: "Player stats" },
   { id: "story", label: "Report & Preview" },
@@ -78,7 +76,6 @@ export function RedesignCenter({ flow }: { flow: FlowPlay[] }) {
       </nav>
       <main className="rd-wrap rd-main" id="rd-panel" role="tabpanel" aria-labelledby={`rd-tab-${tab}`}>
         {tab === "overview" && <Overview flow={flow} />}
-        {tab === "plays" && <PlayByPlay />}
         {tab === "lineups" && <Lineups />}
         {tab === "stats" && <PlayerStats />}
         {tab === "story" && (
