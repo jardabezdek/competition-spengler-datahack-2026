@@ -9,7 +9,7 @@ function barWidth(value: number, other: number) {
   return (value / scale) * 100;
 }
 
-function formatPlusMinus(value: number) {
+export function formatPlusMinus(value: number) {
   return value > 0 ? `+${value}` : String(value);
 }
 

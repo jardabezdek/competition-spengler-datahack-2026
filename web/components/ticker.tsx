@@ -1,6 +1,6 @@
 import { game, logos, ticker, type TickerItem } from "@/lib/game";
 
-function PuckIcon() {
+export function PuckIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
       <ellipse cx="10" cy="8" rx="7" ry="3.2" fill="none" stroke="white" strokeWidth="1.6" />
@@ -9,7 +9,7 @@ function PuckIcon() {
   );
 }
 
-function WhistleIcon() {
+export function WhistleIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
       <circle cx="7" cy="11" r="3.2" fill="none" stroke="white" strokeWidth="1.6" />

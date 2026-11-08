@@ -1,8 +1,6 @@
 "use client";
 
-import { game, type Side } from "@/lib/game";
-
-const sides = ["home", "away"] as const;
+import { game, sides, type Side } from "@/lib/game";
 
 export function TeamTabs({ side, onChange }: { side: Side; onChange: (side: Side) => void }) {
   return (

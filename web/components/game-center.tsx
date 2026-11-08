@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { banners } from "@/lib/game";
+import { banners, codes } from "@/lib/game";
+import { useHashTab } from "@/lib/use-hash-tab";
 import { Lineup } from "@/components/lineup";
 import { MatchStory } from "@/components/story";
 import { Stats } from "@/components/stats";
@@ -15,24 +15,8 @@ const tabs = [
   { id: "preview", label: "Preview" },
 ] as const;
 
-type TabId = (typeof tabs)[number]["id"];
-
-function isTab(value: string): value is TabId {
-  return tabs.some((tab) => tab.id === value);
-}
-
 export function GameCenter() {
-  const [tab, setTab] = useState<TabId>("ticker");
-
-  useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (isTab(hash)) setTab(hash);
-  }, []);
-
-  function select(next: TabId) {
-    setTab(next);
-    window.history.replaceState(null, "", `#${next}`);
-  }
+  const [tab, select] = useHashTab(tabs);
 
   return (
     <div className="page-wrap">
@@ -48,7 +32,7 @@ export function GameCenter() {
           </li>
           <li>
             <span className="crumb-here" aria-current="page">
-              USC - HCD
+              {codes.home} - {codes.away}
             </span>
           </li>
         </ol>
