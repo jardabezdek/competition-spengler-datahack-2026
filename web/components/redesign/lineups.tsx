@@ -27,8 +27,9 @@ const formation: Record<Side, Record<string, number[]>> = {
   },
 };
 
-const ice = { width: 1200, height: 520, goal: 74, blue: 350, net: 16 };
+const ice = { width: 1200, height: 520, goal: 74, net: 16 };
 const half = ice.width / 2;
+const blue = (ice.goal + half) / 2;
 const between = (from: number, to: number) => `${(((from + to) / 2) / half) * 100}%`;
 
 function forwardRows(count: number) {
@@ -60,8 +61,8 @@ function place(side: Side, line: string) {
   const { forwards, defense, goalie } = skaters(side, line);
   return [
     { player: goalie, x: "20%", y: "50%" },
-    ...column(defense, between(ice.goal, ice.blue), defense.length > 1 ? ["24%", "76%"] : ["24%"]),
-    ...column(forwards, between(ice.blue, half), forwardRows(forwards.length)),
+    ...column(defense, between(ice.goal, blue), defense.length > 1 ? ["24%", "76%"] : ["24%"]),
+    ...column(forwards, between(blue, half), forwardRows(forwards.length)),
   ];
 }
 
@@ -94,7 +95,7 @@ function Half({ side, line }: { side: Side; line: string }) {
 function End() {
   return (
     <g>
-      <line x1={ice.blue} y1="0" x2={ice.blue} y2={ice.height} stroke="#7eb6d6" strokeWidth="6" />
+      <line x1={blue} y1="0" x2={blue} y2={ice.height} stroke="#7eb6d6" strokeWidth="6" />
       <line x1={ice.goal} y1="0" x2={ice.goal} y2={ice.height} stroke="#e06a6a" strokeWidth="4" />
       <path d={`M${ice.goal} 222a28 28 0 0 1 0 56`} fill="none" stroke="#e06a6a" strokeWidth="4" />
       <rect x={ice.goal - ice.net} y="236" width={ice.net} height="36" fill="#e5f4fa" stroke="#8aa4b5" strokeWidth="4" />
