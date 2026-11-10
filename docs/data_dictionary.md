@@ -28,7 +28,7 @@ Each row is one stat for one period of the match. `game_id` is the match, the sa
 
 Source: `data/processed/player_stats.csv`, built by `make transform` from the raw events export, the raw aggregates export and `data/reference/20251231_uscs_hcd_players.csv`, a hand-made roster copied from the official lineup with the columns `game_id`, `team_name`, `player_id`, `first_name`, `last_name`, `number` and `position`.
 Each row is one player of the match, for the whole game. `game_id` is the match, the same value as in the other files. `player_id` is the player's ID from the event export, or the player's name if the player has no ID (dressed players who did not play, such as backup goalies).
-Skater stats are empty for goalies, and goalie stats are empty for skaters.
+Skater stats are empty for goalies, and goalie stats are empty for skaters and for goalies who did not play (`toi` is 00:00).
 
 | column | label | description |
 |---|---|---|

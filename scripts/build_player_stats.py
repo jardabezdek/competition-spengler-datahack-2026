@@ -53,7 +53,7 @@ def skater(expression: str, name: str) -> str:
 
 
 def goalie(expression: str, name: str) -> str:
-    return f"CASE WHEN position = '{Position.GOALIE}' THEN {expression} END AS {name}"
+    return f"CASE WHEN position = '{Position.GOALIE}' AND seconds > 0 THEN {expression} END AS {name}"
 
 
 QUERY = f"""
