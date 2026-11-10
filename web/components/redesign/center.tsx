@@ -8,6 +8,7 @@ import { TeamStats } from "@/components/redesign/team-stats";
 import { MatchStory } from "@/components/story";
 import { banners, game, logos, type Side } from "@/lib/game";
 import type { FlowPlay } from "@/lib/game-flow";
+import type { GoalReplays } from "@/lib/goal-replay";
 import type { PlayerStatsData } from "@/lib/player-stats";
 import type { TeamStat } from "@/lib/team-stats";
 import { score } from "@/lib/timeline";
@@ -36,10 +37,12 @@ const tabs = [
 
 export function RedesignCenter({
   flow,
+  replays,
   stats,
   players,
 }: {
   flow: FlowPlay[];
+  replays: GoalReplays;
   stats: TeamStat[];
   players: PlayerStatsData;
 }) {
@@ -88,7 +91,7 @@ export function RedesignCenter({
       </nav>
       <div className="rd-body">
         <main className="rd-wrap rd-main" id="rd-panel" role="tabpanel" aria-labelledby={`rd-tab-${tab}`}>
-          {tab === "overview" && <GameFlow plays={flow} />}
+          {tab === "overview" && <GameFlow plays={flow} replays={replays} />}
           {tab === "team" && <TeamStats stats={stats} />}
           {tab === "lineup" && <Lineups />}
           {tab === "stats" && <PlayerStats {...players} />}

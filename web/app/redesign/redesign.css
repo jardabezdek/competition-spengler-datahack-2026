@@ -584,7 +584,8 @@
   margin: 0 0 32px;
 }
 
-.rd-period-switch button {
+.rd-period-switch button,
+.rd-replay-speed button {
   border: 0;
   border-radius: 999px;
   padding: 6px 12px;
@@ -598,7 +599,8 @@
   cursor: pointer;
 }
 
-.rd-period-switch button[aria-selected="true"] {
+.rd-period-switch button[aria-selected="true"],
+.rd-replay-speed button[aria-pressed="true"] {
   background: var(--navy);
   color: #fff;
 }
@@ -909,6 +911,15 @@
   border-top-color: var(--navy);
 }
 
+.rd-tip.start {
+  transform: translate(2px, calc(-100% - 8px));
+}
+
+.rd-tip.start::before {
+  right: auto;
+  left: 12px;
+}
+
 .rd-tip strong {
   display: block;
   margin-bottom: 2px;
@@ -965,6 +976,393 @@
 .rd-partners img {
   height: 280px;
   border-radius: 16px;
+}
+
+.rd-puck-replay {
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.rd-puck-replay:hover,
+.rd-puck-replay:focus-visible {
+  border-color: var(--ice);
+  background: #eaf6f9;
+}
+
+.rd-puck-play {
+  flex: none;
+  color: #0b6e82;
+}
+
+html:has(.rd-replay[open]) {
+  overflow: hidden;
+}
+
+.rd-replay {
+  --jersey-home: #1d4ea3;
+  --jersey-away: #ffcc00;
+  width: min(960px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: #fff;
+  color: var(--navy);
+  box-shadow: 0 24px 64px -16px rgba(0, 20, 40, 0.5);
+}
+
+.rd-replay::backdrop {
+  background: rgba(0, 20, 40, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.rd-replay-panel {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+}
+
+.rd-replay-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: -24px -24px 0;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.rd-replay-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.rd-replay-avatar {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--ice);
+  border-radius: 50%;
+}
+
+.rd-replay-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #e8eef2;
+  object-fit: cover;
+  object-position: top;
+}
+
+.rd-replay-title-text {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.rd-replay-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rd-replay-kicker .rd-kicker {
+  padding: 2px 8px;
+  font-size: 10px;
+}
+
+.rd-replay-scorer {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.rd-replay-teams {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+}
+
+.rd-replay-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.rd-replay-team.home {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.rd-replay-team img {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.rd-replay-score {
+  font-size: 26px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.rd-replay-score .scored {
+  font-weight: 800;
+}
+
+.rd-replay-assists {
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.rd-replay-caption {
+  min-height: 1.4em;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.rd-replay-actions {
+  display: flex;
+  flex: none;
+  gap: 8px;
+}
+
+.rd-replay-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.rd-replay-icon:not(:disabled):hover,
+.rd-replay-icon:not(:disabled):focus-visible {
+  background: #eef3f6;
+}
+
+.rd-replay-icon:disabled {
+  color: #c5cdd6;
+  cursor: default;
+}
+
+.rd-replay-rink {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.rd-replay-ice {
+  fill: #f3fafc;
+}
+
+.rd-replay-boards {
+  fill: none;
+  stroke: #9fb4c3;
+  stroke-width: 0.25;
+}
+
+.rd-replay-red {
+  stroke: #e06a6a;
+  stroke-opacity: 0.55;
+}
+
+.rd-replay-red-fill {
+  fill: #e06a6a;
+  fill-opacity: 0.55;
+}
+
+.rd-replay-blue {
+  stroke: #7eb6d6;
+}
+
+.rd-replay-blue-fill {
+  fill: #7eb6d6;
+}
+
+.rd-replay-crease {
+  fill: #d6eef6;
+  stroke: #e06a6a;
+  stroke-opacity: 0.55;
+  stroke-width: 0.06;
+}
+
+.rd-replay-net {
+  fill: #fff;
+  stroke: #8aa4b5;
+  stroke-width: 0.12;
+}
+
+.rd-replay-net-flash {
+  fill: #f2a900;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.rd-replay-net-flash.on {
+  opacity: 0.8;
+}
+
+.rd-replay-trail {
+  fill: none;
+  stroke-width: 0.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.35;
+}
+
+.rd-replay-trail.home {
+  stroke: var(--jersey-home);
+}
+
+.rd-replay-trail.away {
+  stroke: #c99a00;
+}
+
+.rd-replay-puck-path {
+  fill: none;
+  stroke: #111827;
+  stroke-width: 0.14;
+  stroke-dasharray: 0.5 0.35;
+  stroke-opacity: 0.55;
+}
+
+.rd-replay-puck {
+  fill: #111827;
+  stroke: #fff;
+  stroke-width: 0.14;
+}
+
+.rd-replay-player text {
+  font-size: 1.05px;
+  font-weight: 800;
+  text-anchor: middle;
+  font-variant-numeric: tabular-nums;
+}
+
+.rd-replay-player.home .rd-replay-dot {
+  fill: var(--jersey-home);
+}
+
+.rd-replay-player.home text {
+  fill: #fff;
+}
+
+.rd-replay-player.away .rd-replay-dot {
+  fill: var(--jersey-away);
+  stroke: var(--navy);
+  stroke-width: 0.16;
+}
+
+.rd-replay-player.away text {
+  fill: var(--navy);
+}
+
+.rd-replay-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rd-replay-play {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  cursor: pointer;
+}
+
+.rd-replay-play:hover,
+.rd-replay-play:focus-visible {
+  background: #0b6e82;
+}
+
+.rd-replay-scrub {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.rd-replay-scrub input {
+  display: block;
+  width: 100%;
+  margin: 0;
+  accent-color: var(--navy);
+}
+
+.rd-replay-ticks {
+  position: absolute;
+  inset: auto 8px -8px;
+  height: 6px;
+  pointer-events: none;
+}
+
+.rd-replay-tick {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 6px;
+  border-radius: 1px;
+  background: #94a3b8;
+  transform: translateX(-50%);
+}
+
+.rd-replay-tick.goal {
+  width: 4px;
+  background: #f2a900;
+}
+
+.rd-replay-clock {
+  flex: none;
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.rd-replay-speed {
+  display: flex;
+  flex: none;
+  gap: 4px;
 }
 
 @media (min-width: 1500px) {
@@ -1111,5 +1509,96 @@
 
   .rd-beat-note {
     font-size: 11px;
+  }
+
+  .rd-puck-replay {
+    font-size: 12px;
+  }
+
+  .rd-replay {
+    width: calc(100% - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 16px;
+  }
+
+  .rd-replay-panel {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .rd-replay-head {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: -16px -16px 0;
+    padding: 10px 16px 12px;
+  }
+
+  .rd-replay-actions {
+    order: -1;
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  .rd-replay-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+
+  .rd-replay-team img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .rd-replay-team-name {
+    display: none;
+  }
+
+  .rd-replay-score {
+    font-size: 22px;
+  }
+
+  .rd-replay-title {
+    flex-basis: 100%;
+    gap: 10px;
+  }
+
+  .rd-replay-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rd-replay-kicker {
+    font-size: 11px;
+  }
+
+  .rd-replay-scorer {
+    font-size: 16px;
+  }
+
+  .rd-replay-assists {
+    font-size: 13px;
+  }
+
+  .rd-replay-player .rd-replay-dot {
+    r: 1.35px;
+  }
+
+  .rd-replay-player text {
+    font-size: 1.4px;
+  }
+
+  .rd-replay-caption {
+    font-size: 13px;
+  }
+
+  .rd-replay-controls {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .rd-replay-scrub {
+    order: 1;
+    flex-basis: 100%;
   }
 }

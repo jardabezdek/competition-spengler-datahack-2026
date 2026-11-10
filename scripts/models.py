@@ -39,6 +39,9 @@ class EventType(StrEnum):
     GOAL = "Goal"
     PENALTY = "Penalty"
     BLUELINE_CROSSING = "BluelineCrossing"
+    DUMP = "Dump"
+    PUCK_CONTROL = "PuckControl"
+    STOPPAGE = "StoppageOfPlay"
 
     @property
     def play_type(self) -> PlayType:

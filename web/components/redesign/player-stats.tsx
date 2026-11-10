@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
-import { createPortal } from "react-dom";
+import { useState } from "react";
 import { PlayerLink } from "@/components/redesign/player-link";
+import { Tooltip, useTooltip } from "@/components/redesign/tooltip";
 import { game, photos, sides, type Side } from "@/lib/game";
 import type { PlayerPosition, PlayerStat, PlayerStatsData, StatKey } from "@/lib/player-stats";
 import { minutes } from "@/lib/timeline";
@@ -10,7 +10,6 @@ import { minutes } from "@/lib/timeline";
 type Notes = PlayerStatsData["notes"];
 type Direction = "descending" | "ascending";
 type Sort = { key: StatKey; direction: Direction } | null;
-type Tip = { key: StatKey; left: number; top: number } | null;
 
 type Column = {
   key: StatKey;
@@ -113,25 +112,8 @@ function StatsTable({
   initialSort?: Sort;
 }) {
   const [sort, setSort] = useState(initialSort ?? null);
-  const [tip, setTip] = useState<Tip>(null);
-  const note = tip && notes[tip.key];
-  const tipId = useId();
-
-  useEffect(() => {
-    if (!tip) return;
-    const hide = () => setTip(null);
-    window.addEventListener("scroll", hide, true);
-    window.addEventListener("resize", hide);
-    return () => {
-      window.removeEventListener("scroll", hide, true);
-      window.removeEventListener("resize", hide);
-    };
-  }, [tip]);
-
-  const showTip = (key: StatKey, header: Element) => {
-    const box = header.getBoundingClientRect();
-    setTip({ key, left: box.right, top: box.top });
-  };
+  const tooltip = useTooltip<StatKey>();
+  const note = tooltip.tip && notes[tooltip.tip.key];
 
   const rows = sort ? [...players].sort((a, b) => compare(a, b, sort.key, sort.direction)) : players;
 
@@ -147,19 +129,19 @@ function StatsTable({
                 <th
                   key={column.key}
                   aria-sort={sort?.key === column.key ? sort.direction : undefined}
-                  onMouseEnter={(event) => showTip(column.key, event.currentTarget)}
-                  onMouseLeave={() => setTip(null)}
+                  onMouseEnter={(event) => tooltip.show(column.key, event.currentTarget)}
+                  onMouseLeave={tooltip.hide}
                 >
                   <button
                     type="button"
                     aria-label={notes[column.key]?.label}
-                    aria-describedby={tip?.key === column.key ? tipId : undefined}
+                    aria-describedby={tooltip.tip?.key === column.key ? tooltip.id : undefined}
                     onClick={() => setSort(nextSort(sort, column.key))}
                     onFocus={(event) => {
                       const header = event.currentTarget.parentElement;
-                      if (header && event.currentTarget.matches(":focus-visible")) showTip(column.key, header);
+                      if (header && event.currentTarget.matches(":focus-visible")) tooltip.show(column.key, header);
                     }}
-                    onBlur={() => setTip(null)}
+                    onBlur={tooltip.hide}
                   >
                     {column.label}
                   </button>
@@ -185,15 +167,12 @@ function StatsTable({
           </tbody>
         </table>
       </div>
-      {tip &&
-        note &&
-        createPortal(
-          <span className="rd-tip" role="tooltip" id={tipId} style={{ left: tip.left, top: tip.top }}>
-            <strong>{note.label}</strong>
-            {note.description}
-          </span>,
-          document.body,
-        )}
+      {tooltip.tip && note && (
+        <Tooltip tip={tooltip.tip} id={tooltip.id}>
+          <strong>{note.label}</strong>
+          {note.description}
+        </Tooltip>
+      )}
     </div>
   );
 }

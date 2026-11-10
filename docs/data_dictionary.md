@@ -58,3 +58,22 @@ Skater stats are empty for goalies, and goalie stats are empty for skaters and f
 | xg_against | Expected Goals Against | Sum of the expected-goal value of the shots on goal the goalie faced. |
 | saves_above_expected | Saves Above Expected | Expected goals against minus goals against. Positive means the goalie stopped more than the shot quality suggested. |
 | save_pct | Save Percentage | Saves divided by shots against. Empty if the goalie faced no shots. |
+
+# Goal replays data dictionary
+
+Source: `data/processed/goal_replays.json`, built by `make transform` from the raw events export and the roster in `data/reference/20251231_uscs_hcd_players.csv`.
+The file holds `blueLine`, the distance in metres from centre ice to each blue line (7.1, measured from the blueline crossings), and `goals`, one replay per goal in game order.
+Coordinates are in metres with (0, 0) at centre ice, x from -30 to 30 and y from -15 to 15. The home team attacks towards positive x in every period.
+A replay starts at the last stoppage of play, or 10 seconds before the goal shot if play ran longer, and follows the puck up to 1.5 seconds after the shot. Times `t` are seconds relative to the goal shot.
+
+| field | label | description |
+|---|---|---|
+| period | Period | Period of the goal. |
+| time | Time | Game time of the goal as MM:SS, the same value as `time` in `game_flow.csv`. |
+| side | Team | `home` or `away`, the scoring team. |
+| shooter | Scorer | Player ID of the goal scorer. |
+| assists | Assists | Player IDs of the first and second assist. |
+| shotClock | Shot Clock | Game time of the goal shot in whole seconds. |
+| players | Players | Player ID to name, jersey number and team, for every player in the replay. |
+| frames | Frames | One entry per event timestamp: `t`, `puck` as the puck position at the event, and `skaters` as `[player_id, x, y, vx, vy]` with the velocity in m/s. About a third of the velocities come from the export; the rest are estimated from the player's neighbouring positions. `skaters` is empty when the export has no positions for the event. When the clip ends while the puck is still travelling, a last frame without skaters places the puck where the export says its movement ended, at a time estimated from its speed over its last two recorded positions and never later than the goal call. |
+| captions | Captions | Key moments: faceoffs, passes with their receiver and result, controlled zone entries and exits, dumps, clears and shots with their result. |
