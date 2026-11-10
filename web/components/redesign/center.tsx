@@ -86,29 +86,31 @@ export function RedesignCenter({
           </div>
         </div>
       </nav>
-      <main className="rd-wrap rd-main" id="rd-panel" role="tabpanel" aria-labelledby={`rd-tab-${tab}`}>
-        {tab === "overview" && <GameFlow plays={flow} />}
-        {tab === "team" && <TeamStats stats={stats} />}
-        {tab === "lineup" && <Lineups />}
-        {tab === "stats" && <PlayerStats {...players} />}
-        {tab === "story" && (
-          <div className="rd-stories">
-            <section className="rd-card rd-story">
-              <span className="rd-kicker">Match report</span>
-              <MatchStory kind="report" />
-            </section>
-            <section className="rd-card rd-story">
-              <span className="rd-kicker">Preview</span>
-              <MatchStory kind="preview" />
-            </section>
-          </div>
-        )}
-      </main>
-      <aside className="rd-wrap rd-partners" aria-label="Partners">
-        {banners.map((banner) => (
-          <img key={banner.alt} src={banner.src} alt={banner.alt} />
-        ))}
-      </aside>
+      <div className="rd-body">
+        <main className="rd-wrap rd-main" id="rd-panel" role="tabpanel" aria-labelledby={`rd-tab-${tab}`}>
+          {tab === "overview" && <GameFlow plays={flow} />}
+          {tab === "team" && <TeamStats stats={stats} />}
+          {tab === "lineup" && <Lineups />}
+          {tab === "stats" && <PlayerStats {...players} />}
+          {tab === "story" && (
+            <div className="rd-stories">
+              <section className="rd-card rd-story">
+                <span className="rd-kicker">Match report</span>
+                <MatchStory kind="report" />
+              </section>
+              <section className="rd-card rd-story">
+                <span className="rd-kicker">Preview</span>
+                <MatchStory kind="preview" />
+              </section>
+            </div>
+          )}
+        </main>
+        <aside className="rd-wrap rd-partners" aria-label="Partners">
+          {banners.map((banner) => (
+            <img key={banner.alt} src={banner.src} alt={banner.alt} />
+          ))}
+        </aside>
+      </div>
     </div>
   );
 }
