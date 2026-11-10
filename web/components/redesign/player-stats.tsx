@@ -1,106 +1,227 @@
 "use client";
 
-import { useState } from "react";
-import { TeamTabs } from "@/components/team-tabs";
-import { formatPlusMinus } from "@/lib/format";
-import { goalieStats, photos, skaterStats, type Side, type SkaterStat } from "@/lib/game";
+import { useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
+import { game, photos, sides, type Side } from "@/lib/game";
+import type { PlayerPosition, PlayerStat, PlayerStatsData, StatKey } from "@/lib/player-stats";
 import { minutes } from "@/lib/timeline";
 
-const columns = [
-  { key: "goals", label: "G", title: "Goals" },
-  { key: "assists", label: "A", title: "Assists" },
-  { key: "points", label: "PTS", title: "Points" },
-  { key: "plusMinus", label: "+/-", title: "Plus/Minus" },
-  { key: "toi", label: "TOI", title: "Time on Ice" },
-] as const;
+type Notes = PlayerStatsData["notes"];
+type Direction = "descending" | "ascending";
+type Sort = { key: StatKey; direction: Direction } | null;
+type Tip = { key: StatKey; left: number; top: number } | null;
 
-type SortKey = (typeof columns)[number]["key"];
+type Column = {
+  key: StatKey;
+  label: string;
+  digits?: number;
+  percent?: boolean;
+  signed?: boolean;
+};
 
-const sortValue = (player: SkaterStat, key: SortKey) => (key === "toi" ? minutes(player.toi) : player[key]);
+const skaterColumns: Column[] = [
+  { key: "toi", label: "TOI" },
+  { key: "shifts", label: "SHFT" },
+  { key: "goals", label: "G" },
+  { key: "assists", label: "A" },
+  { key: "points", label: "PTS" },
+  { key: "plusMinus", label: "+/-", signed: true },
+  { key: "pim", label: "PIM" },
+  { key: "shots", label: "S" },
+  { key: "shotsOnGoal", label: "SOG" },
+  { key: "xg", label: "xG", digits: 2 },
+  { key: "blockedShots", label: "BKS" },
+  { key: "takeaways", label: "TK" },
+  { key: "giveaways", label: "GV" },
+  { key: "controlledEntries", label: "CZE" },
+  { key: "controlledExits", label: "CZX" },
+];
 
-function PlayerCell({ side, name, number }: { side: Side; name: string; number: number }) {
+const goalieColumns: Column[] = [
+  { key: "toi", label: "TOI" },
+  { key: "shotsAgainst", label: "SA" },
+  { key: "saves", label: "SV" },
+  { key: "goalsAgainst", label: "GA" },
+  { key: "savePct", label: "SV%", percent: true },
+  { key: "xgAgainst", label: "xGA", digits: 2 },
+  { key: "savesAboveExpected", label: "GSAx", digits: 2, signed: true },
+];
+
+const byPoints: Sort = { key: "points", direction: "descending" };
+
+const groups: { position: PlayerPosition; title: string; columns: Column[]; sort?: Sort }[] = [
+  {
+    position: "F",
+    title: "Forwards",
+    columns: [...skaterColumns, { key: "faceoffPct", label: "FO%", percent: true }],
+    sort: byPoints,
+  },
+  { position: "D", title: "Defenders", columns: skaterColumns, sort: byPoints },
+  { position: "G", title: "Goalies", columns: goalieColumns },
+];
+
+function numeric(player: PlayerStat, key: StatKey) {
+  const value = player[key];
+  return typeof value === "string" ? minutes(value) : value;
+}
+
+function compare(a: PlayerStat, b: PlayerStat, key: StatKey, direction: Direction) {
+  const left = numeric(a, key);
+  const right = numeric(b, key);
+  if (left == null || right == null) return Number(left == null) - Number(right == null);
+  return direction === "descending" ? right - left : left - right;
+}
+
+function nextSort(current: Sort, key: StatKey): Sort {
+  if (current?.key !== key) return { key, direction: "descending" };
+  return current.direction === "descending" ? { key, direction: "ascending" } : null;
+}
+
+function display(player: PlayerStat, column: Column) {
+  const value = player[column.key];
+  if (value == null) return "–";
+  if (typeof value === "string") return value;
+  if (column.percent) return `${value.toFixed(1)}%`;
+  const sign = column.signed && value > 0 ? "+" : "";
+  return sign + (column.digits ? value.toFixed(column.digits) : String(value));
+}
+
+function PlayerCell({ player }: { player: PlayerStat }) {
   return (
     <td className="rd-who">
       <span className="rd-avatar">
-        <img src={photos[side][number]} alt="" />
+        <img src={photos[player.side][player.number]} alt="" />
       </span>
-      {name}
-      <small>#{number}</small>
+      {player.name}
+      <small>#{player.number}</small>
     </td>
   );
 }
 
-export function PlayerStats() {
-  const [side, setSide] = useState<Side>("home");
-  const [sort, setSort] = useState<SortKey>("points");
-  const skaters = [...skaterStats[side]].sort((a, b) => sortValue(b, sort) - sortValue(a, sort));
+function StatsTable({
+  title,
+  players,
+  columns,
+  notes,
+  initialSort,
+}: {
+  title: string;
+  players: PlayerStat[];
+  columns: Column[];
+  notes: Notes;
+  initialSort?: Sort;
+}) {
+  const [sort, setSort] = useState(initialSort ?? null);
+  const [tip, setTip] = useState<Tip>(null);
+  const note = tip && notes[tip.key];
+  const tipId = useId();
+
+  useEffect(() => {
+    if (!tip) return;
+    const hide = () => setTip(null);
+    window.addEventListener("scroll", hide, true);
+    window.addEventListener("resize", hide);
+    return () => {
+      window.removeEventListener("scroll", hide, true);
+      window.removeEventListener("resize", hide);
+    };
+  }, [tip]);
+
+  const showTip = (key: StatKey, header: Element) => {
+    const box = header.getBoundingClientRect();
+    setTip({ key, left: box.right, top: box.top });
+  };
+
+  const rows = sort ? [...players].sort((a, b) => compare(a, b, sort.key, sort.direction)) : players;
 
   return (
-    <div className="rd-stack">
-      <TeamTabs side={side} onChange={setSide} />
-      <section className="rd-card">
-        <h3 className="rd-card-title">Skaters</h3>
-        <div className="rd-table-wrap">
-          <table className="rd-table">
-            <thead>
-              <tr>
-                <th>Player</th>
-                {columns.map((column) => (
-                  <th key={column.key} aria-sort={sort === column.key ? "descending" : undefined}>
-                    <button type="button" title={column.title} onClick={() => setSort(column.key)}>
-                      {column.label}
-                    </button>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {skaters.map((player) => (
-                <tr key={player.number}>
-                  <PlayerCell side={side} name={player.name} number={player.number} />
-                  {columns.map((column) => (
-                    <td
-                      key={column.key}
-                      className={`${sort === column.key ? "sorted" : ""}${
-                        column.key === "plusMinus" && player.plusMinus > 0 ? " up" : ""
-                      }`}
-                    >
-                      {column.key === "plusMinus" ? formatPlusMinus(player.plusMinus) : player[column.key]}
+    <div className="rd-player-group">
+      <h3 className="rd-card-title">{title}</h3>
+      <div className="rd-table-wrap">
+        <table className="rd-table">
+          <thead>
+            <tr>
+              <th>Player</th>
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  aria-sort={sort?.key === column.key ? sort.direction : undefined}
+                  onMouseEnter={(event) => showTip(column.key, event.currentTarget)}
+                  onMouseLeave={() => setTip(null)}
+                >
+                  <button
+                    type="button"
+                    aria-label={notes[column.key]?.label}
+                    aria-describedby={tip?.key === column.key ? tipId : undefined}
+                    onClick={() => setSort(nextSort(sort, column.key))}
+                    onFocus={(event) => {
+                      const header = event.currentTarget.parentElement;
+                      if (header && event.currentTarget.matches(":focus-visible")) showTip(column.key, header);
+                    }}
+                    onBlur={() => setTip(null)}
+                  >
+                    {column.label}
+                  </button>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((player) => (
+              <tr key={player.id}>
+                <PlayerCell player={player} />
+                {columns.map((column) => {
+                  const value = player[column.key];
+                  const up = column.signed && typeof value === "number" && value > 0;
+                  return (
+                    <td key={column.key} className={`${sort?.key === column.key ? "sorted" : ""}${up ? " up" : ""}`}>
+                      {display(player, column)}
                     </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section className="rd-card">
-        <h3 className="rd-card-title">Goalies</h3>
-        <div className="rd-table-wrap">
-          <table className="rd-table">
-            <thead>
-              <tr>
-                <th>Goalie</th>
-                <th>Shots Against</th>
-                <th>Saves</th>
-                <th>Goals Against</th>
-                <th>Save %</th>
+                  );
+                })}
               </tr>
-            </thead>
-            <tbody>
-              {goalieStats[side].map((goalie) => (
-                <tr key={goalie.number}>
-                  <PlayerCell side={side} name={goalie.name} number={goalie.number} />
-                  <td>{goalie.shotsAgainst}</td>
-                  <td>{goalie.saves}</td>
-                  <td>{goalie.goalsAgainst}</td>
-                  <td>{goalie.savePct}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {tip &&
+        note &&
+        createPortal(
+          <span className="rd-tip" role="tooltip" id={tipId} style={{ left: tip.left, top: tip.top }}>
+            <strong>{note.label}</strong>
+            {note.description}
+          </span>,
+          document.body,
+        )}
     </div>
+  );
+}
+
+export function PlayerStats({ players, notes }: PlayerStatsData) {
+  const [side, setSide] = useState<Side>("home");
+  const shown = players.filter((player) => player.side === side);
+
+  return (
+    <section className="rd-card">
+      <div className="rd-period-switch" role="tablist" aria-label="Team">
+        {sides.map((key) => (
+          <button key={key} type="button" role="tab" aria-selected={side === key} onClick={() => setSide(key)}>
+            {game[key]}
+          </button>
+        ))}
+      </div>
+      <div className="rd-player-groups">
+        {groups.map((group) => (
+          <StatsTable
+            key={group.position}
+            title={group.title}
+            players={shown.filter((player) => player.position === group.position)}
+            columns={group.columns}
+            notes={notes}
+            initialSort={group.sort}
+          />
+        ))}
+      </div>
+    </section>
   );
 }

@@ -8,6 +8,7 @@ import { TeamStats } from "@/components/redesign/team-stats";
 import { MatchStory } from "@/components/story";
 import { banners, game, logos, type Side } from "@/lib/game";
 import type { FlowPlay } from "@/lib/game-flow";
+import type { PlayerStatsData } from "@/lib/player-stats";
 import type { TeamStat } from "@/lib/team-stats";
 import { score } from "@/lib/timeline";
 import { useHashTab } from "@/lib/use-hash-tab";
@@ -33,7 +34,15 @@ const tabs = [
   { id: "story", label: "Report & Preview" },
 ] as const;
 
-export function RedesignCenter({ flow, stats }: { flow: FlowPlay[]; stats: TeamStat[] }) {
+export function RedesignCenter({
+  flow,
+  stats,
+  players,
+}: {
+  flow: FlowPlay[];
+  stats: TeamStat[];
+  players: PlayerStatsData;
+}) {
   const [tab, select] = useHashTab(tabs);
   const [stuck, setStuck] = useState(false);
   const sentinel = useRef<HTMLDivElement>(null);
@@ -81,7 +90,7 @@ export function RedesignCenter({ flow, stats }: { flow: FlowPlay[]; stats: TeamS
         {tab === "overview" && <GameFlow plays={flow} />}
         {tab === "team" && <TeamStats stats={stats} />}
         {tab === "lineup" && <Lineups />}
-        {tab === "stats" && <PlayerStats />}
+        {tab === "stats" && <PlayerStats {...players} />}
         {tab === "story" && (
           <div className="rd-stories">
             <section className="rd-card rd-story">

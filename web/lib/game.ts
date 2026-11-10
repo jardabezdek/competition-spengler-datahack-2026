@@ -307,7 +307,7 @@ export const teamStats: TeamStat[] = [
   { key: "PP%", label: "Powerplay Percentage", home: 0, away: 50 },
 ];
 
-export type SkaterStat = {
+type SkaterStat = {
   name: string;
   number: number;
   goals: number;

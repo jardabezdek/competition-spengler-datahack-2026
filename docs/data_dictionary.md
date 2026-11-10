@@ -41,7 +41,7 @@ Skater stats are empty for goalies, and goalie stats are empty for skaters and f
 | goals | Goals | Goals scored. |
 | assists | Assists | First and second assists. |
 | points | Points | Goals plus assists. |
-| plus_minus | Plus/Minus | Goals for minus goals against while the player was on the ice, from the aggregates export. Power-play goals are not counted. |
+| plus_minus | Plus/Minus | Goals for minus goals against while the player was on the ice. Power-play goals are not counted. From the aggregates export. |
 | pim | Penalty Minutes | 2 minutes for each penalty the player took. Bench penalties are not charged to a player, so a team's players can add up to less than the team's PIM. |
 | shots | Shot Attempts | All shots the player took: on goal, missed and blocked. |
 | shots_on_goal | Shots on Goal | Shots the player took that were saved or scored. |
