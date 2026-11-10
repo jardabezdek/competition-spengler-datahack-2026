@@ -3,11 +3,18 @@
 from enum import StrEnum
 
 MINOR_PENALTY_MINUTES = 2
+PERIOD_SECONDS = 1200
 
 
 class Side(StrEnum):
     HOME = "home"
     AWAY = "away"
+
+
+class Position(StrEnum):
+    FORWARD = "F"
+    DEFENSE = "D"
+    GOALIE = "G"
 
 
 class Team(StrEnum):

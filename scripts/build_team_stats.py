@@ -1,13 +1,9 @@
 """Build team comparison stats from the raw event export."""
 
-from common import EVENTS, ROOT, game_id, write_csv
+from common import CONTROLLED, EVENTS, GIVEAWAY, ON_GOAL, ROOT, game_id, write_csv
 from models import (
     MINOR_PENALTY_MINUTES,
-    ClearType,
-    CrossingDirection,
-    CrossingResult,
     EventType,
-    PassResult,
     PuckState,
     ShotResult,
     Strength,
@@ -17,15 +13,6 @@ from models import (
 
 DESTINATION = ROOT / "data" / "processed" / "team_stats.csv"
 
-ON_GOAL = (
-    f"EventType = '{EventType.SHOT}' "
-    f"AND ShotResult IN ('{ShotResult.SAVED}', '{ShotResult.GOAL}')"
-)
-CONTROLLED = (
-    f"EventType = '{EventType.BLUELINE_CROSSING}' "
-    f"AND BluelineCrossingDirection = '{CrossingDirection.TOWARDS_OPPONENT}' "
-    f"AND BluelineCrossingResult = '{CrossingResult.POSSESSION_MAINTAINED}'"
-)
 FACED = {
     Team.HOME: f"{ON_GOAL} AND team = '{Team.AWAY}' AND home_goalie",
     Team.AWAY: f"{ON_GOAL} AND team = '{Team.HOME}' AND away_goalie",
@@ -153,10 +140,7 @@ played AS (
     SELECT
         *,
         last_value(strength_raw IGNORE NULLS) OVER (ORDER BY seq) AS strength,
-        (
-            (EventType = '{EventType.PASS}' AND PassResult = '{PassResult.INTERCEPTED}')
-            OR (EventType = '{EventType.CLEAR}' AND ClearType = '{ClearType.INTERCEPTED}')
-        ) AS giveaway,
+        ({GIVEAWAY}) AS giveaway,
         last_value(
             CASE WHEN puck_state IN ('{PuckState.HOME}', '{PuckState.AWAY}') THEN puck_state END
             IGNORE NULLS

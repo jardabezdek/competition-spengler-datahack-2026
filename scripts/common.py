@@ -2,8 +2,33 @@ from pathlib import Path
 
 import duckdb
 
+from models import (
+    ClearType,
+    CrossingDirection,
+    CrossingResult,
+    EventType,
+    PassResult,
+    ShotResult,
+)
+
 ROOT = Path(__file__).resolve().parent.parent
 EVENTS = ROOT / "data" / "raw" / "20251231_uscs_hcd_events_all.csv"
+AGGREGATES = ROOT / "data" / "raw" / "20251231_uscs_hcd_aggregates_all.csv"
+PLAYERS = ROOT / "data" / "reference" / "20251231_uscs_hcd_players.csv"
+
+ON_GOAL = (
+    f"EventType = '{EventType.SHOT}' "
+    f"AND ShotResult IN ('{ShotResult.SAVED}', '{ShotResult.GOAL}')"
+)
+CONTROLLED = (
+    f"EventType = '{EventType.BLUELINE_CROSSING}' "
+    f"AND BluelineCrossingDirection = '{CrossingDirection.TOWARDS_OPPONENT}' "
+    f"AND BluelineCrossingResult = '{CrossingResult.POSSESSION_MAINTAINED}'"
+)
+GIVEAWAY = (
+    f"(EventType = '{EventType.PASS}' AND PassResult = '{PassResult.INTERCEPTED}') "
+    f"OR (EventType = '{EventType.CLEAR}' AND ClearType = '{ClearType.INTERCEPTED}')"
+)
 
 
 def game_id(path: Path) -> str:
