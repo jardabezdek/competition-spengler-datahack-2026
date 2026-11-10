@@ -141,6 +141,8 @@ const p = (last: string, first: string, number: number, position: Position): Pla
   position,
 });
 
+export const fullName = (player: Player) => `${player.first} ${player.last}`;
+
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z]/g, "");
 
 export const profileUrl = (player: Player) =>
@@ -296,6 +298,13 @@ export const lineup: Record<Side, Line[]> = {
       players: [p("Komarov", "Leonid", 47, "Stürmer")],
     },
   ],
+};
+
+const roster = sides.flatMap((side) => lineup[side].flatMap((line) => line.players));
+
+export const profileByName = (name: string) => {
+  const player = roster.find((candidate) => fullName(candidate) === name);
+  return player && profileUrl(player);
 };
 
 type TeamStat = {

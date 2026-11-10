@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import { PuckIcon } from "@/components/icons";
+import { PlayerLink } from "@/components/redesign/player-link";
 import { flowRows, goalNotes, penaltyLabel, type FlowPlay, type FlowRow } from "@/lib/game-flow";
 import { periodLabels } from "@/lib/timeline";
 
@@ -28,7 +30,11 @@ function Marker({ row }: { row: FlowRow }) {
 function Description({ row }: { row: FlowRow }) {
   const player = row.type === "goal" ? row.shooter : row.player;
   const detail = row.type === "penalty" ? penaltyLabel(row.penalty) : goalNotes(row).join(", ");
-  const name = player && <span className="rd-player-name">{player}</span>;
+  const name = player && (
+    <span className="rd-player-name">
+      <PlayerLink name={player} />
+    </span>
+  );
   const tag = detail && (
     <span className="rd-foul-wrap">
       <span className="rd-foul">({detail})</span>
@@ -40,7 +46,16 @@ function Description({ row }: { row: FlowRow }) {
         {row.side === "home" ? tag : name}
         {row.side === "home" ? name : tag}
       </p>
-      {row.assists.length > 0 && <p className="rd-beat-note">{row.assists.join(" + ")}</p>}
+      {row.assists.length > 0 && (
+        <p className="rd-beat-note">
+          {row.assists.map((assist, index) => (
+            <Fragment key={assist}>
+              {index > 0 && " + "}
+              <PlayerLink name={assist} />
+            </Fragment>
+          ))}
+        </p>
+      )}
     </div>
   );
 }

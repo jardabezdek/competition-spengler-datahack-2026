@@ -488,6 +488,20 @@
   font-weight: 700;
 }
 
+.rd-player-link {
+  text-decoration: underline 1.5px transparent;
+  text-underline-offset: 3px;
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease;
+}
+
+.rd-player-link:hover,
+.rd-player-link:focus-visible {
+  color: #0b6e82;
+  text-decoration-color: currentColor;
+}
+
 .rd-foul-wrap {
   display: inline-flex;
 }

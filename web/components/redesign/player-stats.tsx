@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
+import { PlayerLink } from "@/components/redesign/player-link";
 import { game, photos, sides, type Side } from "@/lib/game";
 import type { PlayerPosition, PlayerStat, PlayerStatsData, StatKey } from "@/lib/player-stats";
 import { minutes } from "@/lib/timeline";
@@ -92,7 +93,7 @@ function PlayerCell({ player }: { player: PlayerStat }) {
       <span className="rd-avatar">
         <img src={photos[player.side][player.number]} alt="" />
       </span>
-      {player.name}
+      <PlayerLink name={player.name} />
       <small>#{player.number}</small>
     </td>
   );

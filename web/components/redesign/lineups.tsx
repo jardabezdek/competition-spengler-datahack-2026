@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import icon from "@/app/icon.png";
-import { game, lineup, logos, photos, type Player, type Side } from "@/lib/game";
+import { PlayerLink } from "@/components/redesign/player-link";
+import { fullName, game, lineup, logos, photos, type Player, type Side } from "@/lib/game";
 
 const lines = [
   { id: "1", label: "1st Line" },
@@ -74,7 +75,9 @@ function Skater({ player, side }: { player: Player; side: Side }) {
         <span className="rd-skater-num">{player.number}</span>
       </span>
       <span className="rd-skater-name">
-        {player.first[0]}. {player.last}
+        <PlayerLink name={fullName(player)}>
+          {player.first[0]}. {player.last}
+        </PlayerLink>
       </span>
     </span>
   );
