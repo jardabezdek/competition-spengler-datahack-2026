@@ -2,12 +2,14 @@
 
 from common import (
     AGGREGATES,
+    CONTROL,
     CONTROLLED,
     EVENTS,
     GIVEAWAY,
     ON_GOAL,
     PLAYERS,
     ROOT,
+    SLOTS,
     game_id,
     write_csv,
 )
@@ -23,11 +25,9 @@ from models import (
 
 DESTINATION = ROOT / "data" / "processed" / "player_stats.csv"
 
-SLOTS = range(1, 13)
 ON_ICE_IDS = [f"StartPlayerId{slot}" for slot in SLOTS]
 ON_ICE_TEAMS = [f"StartPlayerTeam{slot}" for slot in SLOTS]
 
-CONTROL = f"puck_state IN ('{PuckState.HOME}', '{PuckState.AWAY}')"
 OWN_CONTROL = (
     f"(team = '{Team.HOME}' AND puck_state = '{PuckState.HOME}') "
     f"OR (team = '{Team.AWAY}' AND puck_state = '{PuckState.AWAY}')"

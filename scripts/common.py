@@ -8,6 +8,7 @@ from models import (
     CrossingResult,
     EventType,
     PassResult,
+    PuckState,
     ShotResult,
 )
 
@@ -15,6 +16,8 @@ ROOT = Path(__file__).resolve().parent.parent
 EVENTS = ROOT / "data" / "raw" / "20251231_uscs_hcd_events_all.csv"
 AGGREGATES = ROOT / "data" / "raw" / "20251231_uscs_hcd_aggregates_all.csv"
 PLAYERS = ROOT / "data" / "reference" / "20251231_uscs_hcd_players.csv"
+
+SLOTS = range(1, 13)
 
 ON_GOAL = (
     f"EventType = '{EventType.SHOT}' "
@@ -25,6 +28,7 @@ CONTROLLED = (
     f"AND BluelineCrossingDirection = '{CrossingDirection.TOWARDS_OPPONENT}' "
     f"AND BluelineCrossingResult = '{CrossingResult.POSSESSION_MAINTAINED}'"
 )
+CONTROL = f"puck_state IN ('{PuckState.HOME}', '{PuckState.AWAY}')"
 GIVEAWAY = (
     f"(EventType = '{EventType.PASS}' AND PassResult = '{PassResult.INTERCEPTED}') "
     f"OR (EventType = '{EventType.CLEAR}' AND ClearType = '{ClearType.INTERCEPTED}')"

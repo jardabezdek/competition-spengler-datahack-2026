@@ -1,6 +1,6 @@
 """Build team comparison stats from the raw event export."""
 
-from common import CONTROLLED, EVENTS, GIVEAWAY, ON_GOAL, ROOT, game_id, write_csv
+from common import CONTROL, CONTROLLED, EVENTS, GIVEAWAY, ON_GOAL, ROOT, game_id, write_csv
 from models import (
     MINOR_PENALTY_MINUTES,
     EventType,
@@ -142,14 +142,14 @@ played AS (
         last_value(strength_raw IGNORE NULLS) OVER (ORDER BY seq) AS strength,
         ({GIVEAWAY}) AS giveaway,
         last_value(
-            CASE WHEN puck_state IN ('{PuckState.HOME}', '{PuckState.AWAY}') THEN puck_state END
+            CASE WHEN {CONTROL} THEN puck_state END
             IGNORE NULLS
         ) OVER (
             ORDER BY seq
             ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
         ) AS previous_control,
         first_value(
-            CASE WHEN puck_state IN ('{PuckState.HOME}', '{PuckState.AWAY}') THEN puck_state END
+            CASE WHEN {CONTROL} THEN puck_state END
             IGNORE NULLS
         ) OVER (
             ORDER BY seq

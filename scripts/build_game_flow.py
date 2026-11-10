@@ -1,11 +1,10 @@
 """Build the game-flow feed from the raw event export."""
 
-from common import EVENTS, ROOT, game_id, write_csv
-from models import MINOR_PENALTY_MINUTES, EventType, GameState, Strength, Team
+from common import EVENTS, ROOT, SLOTS, game_id, write_csv
+from models import MINOR_PENALTY_MINUTES, PERIOD_SECONDS, EventType, GameState, Strength, Team
 
 DESTINATION = ROOT / "data" / "processed" / "game_flow.csv"
 
-SLOTS = range(1, 13)
 PLAYER_IDS = ["EventPrimaryPlayerId", *(f"StartPlayerId{slot}" for slot in SLOTS)]
 PLAYER_NAMES = ["EventPrimaryPlayerName", *(f"StartPlayerName{slot}" for slot in SLOTS)]
 
@@ -15,7 +14,7 @@ WITH events AS (
     SELECT
         row_number() OVER () AS seq,
         *,
-        (Period::INTEGER - 1) * 1200 + MatchClock::INTEGER AS elapsed
+        (Period::INTEGER - 1) * {PERIOD_SECONDS} + MatchClock::INTEGER AS elapsed
     FROM read_csv(?, header = true, all_varchar = true)
 ),
 names AS (
