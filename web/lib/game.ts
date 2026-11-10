@@ -141,6 +141,14 @@ const p = (last: string, first: string, number: number, position: Position): Pla
   position,
 });
 
+const withoutProfile = ["Tambellini", "Barandun"];
+const slug = (name: string) => name.toLowerCase().replace(/[^a-z]/g, "");
+
+export const profileUrl = (player: Player) =>
+  withoutProfile.includes(player.last)
+    ? undefined
+    : new URL(`/en/spieler/${player.number}-${slug(player.last)}_${slug(player.first)}`, SOURCE_URL).href;
+
 export const photos: Record<Side, Record<number, string>> = {
   home: {
     30: "https://cdn.spenglercup.ch/sites/default/files/styles/medium/public/players/usc/2025/30_Adam_Gajan.png.webp?itok=_4-T2tUg",

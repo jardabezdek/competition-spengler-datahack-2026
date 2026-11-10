@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { TeamTabs } from "@/components/team-tabs";
-import { lineup, photos, type Side } from "@/lib/game";
+import { lineup, photos, profileUrl, type Side } from "@/lib/game";
 
 export function Lineup() {
   const [side, setSide] = useState<Side>("home");
@@ -17,7 +17,7 @@ export function Lineup() {
             <h3 className="line-title">{line.title}</h3>
             <div className="line-players">
               {line.players.map((player) => (
-                <div className="player" key={player.number}>
+                <a className="player" key={player.number} href={profileUrl(player)} target="_blank" rel="noreferrer">
                   <div className="portrait">
                     <img src={photos[side][player.number]} alt="" />
                   </div>
@@ -27,7 +27,7 @@ export function Lineup() {
                     </strong>
                     <span>{player.position}</span>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </section>
