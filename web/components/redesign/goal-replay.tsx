@@ -1,6 +1,8 @@
 "use client";
 
-import { Fragment, useEffect, useMemo, useRef, useState, type ComponentProps } from "react";
+import { Fragment, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { SyntheticData } from "@/components/redesign/data-notice";
+import { IconButton } from "@/components/redesign/icon-button";
 import { PlayerLink } from "@/components/redesign/player-link";
 import { game, logos, photos, sides } from "@/lib/game";
 import { goalNotes, type FlowRow } from "@/lib/game-flow";
@@ -27,12 +29,6 @@ const DOT_Y = 7;
 const NET = { width: 1.83, depth: 1.12 };
 const CREASE = 1.8;
 const speeds = [0.5, 1];
-
-const icons = {
-  previous: "M11 4L6 9l5 5",
-  next: "M7 4l5 5-5 5",
-  close: "M4 4l10 10M14 4L4 14",
-};
 
 const line = (points: Point[]) => points.map(({ x, y }) => `${x.toFixed(2)},${(-y).toFixed(2)}`).join(" ");
 
@@ -210,16 +206,6 @@ function Replay({ replay, blueLine }: { replay: GoalReplay; blueLine: number }) 
   );
 }
 
-function IconButton({ icon, label, ...props }: { icon: keyof typeof icons; label: string } & ComponentProps<"button">) {
-  return (
-    <button type="button" className="rd-replay-icon" aria-label={label} {...props}>
-      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-        <path d={icons[icon]} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    </button>
-  );
-}
-
 export function GoalReplayDialog({
   goals,
   blueLine,
@@ -234,6 +220,7 @@ export function GoalReplayDialog({
   onClose: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const synthetic = useContext(SyntheticData);
   const goal = index === null ? null : goals[index];
 
   useEffect(() => {
@@ -267,6 +254,7 @@ export function GoalReplayDialog({
                       {note}
                     </span>
                   ))}
+                  {synthetic && <span className="rd-kicker">Simulated</span>}
                 </p>
                 <p className="rd-replay-scorer">
                   <PlayerLink name={goal.row.shooter} />

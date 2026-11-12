@@ -6,8 +6,12 @@ export function readProjectFile(name: string) {
   return readFileSync(existsSync(fromWeb) ? fromWeb : path.join(process.cwd(), name), "utf8");
 }
 
+export function dataset() {
+  return process.env.DATASET ?? "synthetic";
+}
+
 export function processedFile(name: string) {
-  return `data/${process.env.DATASET ?? "synthetic"}/processed/${name}`;
+  return `data/${dataset()}/processed/${name}`;
 }
 
 export function csvNumber(value: string) {

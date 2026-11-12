@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Countdown } from "@/components/countdown";
 import { SiteMenu } from "@/components/site-menu";
+import { ViewSwitch, type View } from "@/components/view-switch";
 
 function SearchIcon() {
   return (
@@ -10,11 +11,6 @@ function SearchIcon() {
     </svg>
   );
 }
-
-const views = [
-  { id: "current", label: "Current page" },
-  { id: "redesign", label: "Redesigned page" },
-] as const;
 
 function SiteHeader() {
   return (
@@ -60,26 +56,24 @@ function SiteHeader() {
 export function SiteShell({
   active,
   hero,
+  notice,
   children,
 }: {
-  active: "current" | "redesign";
+  active: View;
   hero?: React.ReactNode;
+  notice?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <>
       <div className="version-switch">
-        <span>View</span>
-        {views.map((view) => (
-          <Link
-            key={view.id}
-            href={`/${view.id}`}
-            className={active === view.id ? "active" : undefined}
-            aria-current={active === view.id ? "page" : undefined}
-          >
-            {view.label}
-          </Link>
-        ))}
+        <div className="version-switch-inner">
+          <div className="version-links">
+            <span className="version-label">View</span>
+            <ViewSwitch active={active} />
+          </div>
+          {notice}
+        </div>
       </div>
       {hero ? (
         <div className="mast">

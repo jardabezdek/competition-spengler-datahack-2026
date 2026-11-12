@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 
 const menu = [
   {
@@ -38,6 +38,9 @@ const menu = [
 export function SiteMenu() {
   const [open, setOpen] = useState(false);
   const [section, setSection] = useState<string | null>(null);
+  // The view bar above the header scrolls away, so the menu opens under wherever the header is now.
+  const [top, setTop] = useState(0);
+  const below = { "--menu-top": `${top}px` } as CSSProperties;
   const active = menu.find((entry) => entry.label === section);
 
   useEffect(() => {
@@ -66,7 +69,9 @@ export function SiteMenu() {
         className={`menu-btn${open ? " open" : ""}`}
         aria-expanded={open}
         aria-controls="site-menu"
-        onClick={() => {
+        onClick={(event) => {
+          const header = event.currentTarget.closest(".site-header");
+          if (header) setTop(header.getBoundingClientRect().bottom);
           setSection(null);
           setOpen((value) => !value);
         }}
@@ -80,8 +85,8 @@ export function SiteMenu() {
       </button>
       {open && (
         <>
-          <button type="button" className="menu-overlay" aria-label="Close menu" onClick={close} />
-          <div className="menu-panel" id="site-menu" onMouseLeave={() => setSection(null)}>
+          <button type="button" className="menu-overlay" aria-label="Close menu" style={below} onClick={close} />
+          <div className="menu-panel" id="site-menu" style={below} onMouseLeave={() => setSection(null)}>
             <div className={`menu-sections${active ? " joined" : ""}`}>
               {menu.map((entry) => {
                 const selected = entry.label === section;
