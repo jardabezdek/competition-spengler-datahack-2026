@@ -1,16 +1,6 @@
 """Build team comparison stats from the raw event export."""
 
-from common import (
-    CONTROL,
-    CONTROLLED,
-    EVENTS,
-    GIVEAWAY,
-    ON_GOAL,
-    PROCESSED,
-    game_id,
-    write_csv,
-)
-from models import (
+from spengler.models import (
     MINOR_PENALTY_MINUTES,
     EventType,
     PuckState,
@@ -19,6 +9,8 @@ from models import (
     Team,
     TeamStat,
 )
+from spengler.paths import EVENTS, PROCESSED, game_id
+from spengler.sql import CONTROL, CONTROLLED, GIVEAWAY, ON_GOAL, write_csv
 
 DESTINATION = PROCESSED / "team_stats.csv"
 

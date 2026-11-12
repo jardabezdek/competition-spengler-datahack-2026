@@ -7,10 +7,10 @@ from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
 
-from common import AGGREGATES, EVENTS, PLAYERS, ROOT, SLOTS
-from models import (
+from spengler.models import (
     BLUE_LINE,
     PERIOD_SECONDS,
+    SLOTS,
     ClearType,
     CrossingDirection,
     CrossingResult,
@@ -26,8 +26,8 @@ from models import (
     Team,
     Zone,
 )
+from spengler.paths import AGGREGATES, EVENTS, PLAYERS, ROOT, SYNTHETIC
 
-SYNTHETIC = ROOT / "data" / "synthetic"
 SEED = 2026
 START_MS = 1_767_179_400_000
 INTERMISSION = 18 * 60

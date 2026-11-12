@@ -1,14 +1,16 @@
 """Build the game-flow feed from the raw event export."""
 
-from common import EVENTS, PROCESSED, SLOTS, game_id, write_csv
-from models import (
+from spengler.models import (
     MINOR_PENALTY_MINUTES,
     PERIOD_SECONDS,
+    SLOTS,
     EventType,
     GameState,
     Strength,
     Team,
 )
+from spengler.paths import EVENTS, PROCESSED, game_id
+from spengler.sql import write_csv
 
 DESTINATION = PROCESSED / "game_flow.csv"
 

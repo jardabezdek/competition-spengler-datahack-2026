@@ -6,16 +6,17 @@ from pathlib import Path
 
 import duckdb
 
-from common import EVENTS, PLAYERS, PROCESSED, ROOT, SLOTS, game_id
-from models import (
+from spengler.models import (
     BLUE_LINE,
     PERIOD_SECONDS,
+    SLOTS,
     CrossingDirection,
     CrossingResult,
     EventType,
     ShotResult,
     Team,
 )
+from spengler.paths import EVENTS, PLAYERS, PROCESSED, ROOT, game_id
 
 DESTINATION = PROCESSED / "goal_replays.json"
 

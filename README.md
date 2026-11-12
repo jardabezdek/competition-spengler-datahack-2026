@@ -23,3 +23,12 @@ make transform                   # build data/$DATASET/processed/ from the raw e
 ```
 
 Restart the web app after changing `DATASET`.
+
+
+## Code
+
+The Python code lives in the `spengler` package under `src/`:
+
+- `spengler/synthetic/`: the match simulation behind `make generate-synthetic-data`.
+- `spengler/feeds/`: one module per processed feed, run by `make transform`.
+- `spengler/models.py`, `paths.py`, `sql.py`: export values, dataset locations and DuckDB helpers shared by both.

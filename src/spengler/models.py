@@ -5,6 +5,7 @@ from enum import StrEnum
 BLUE_LINE = 7.1
 MINOR_PENALTY_MINUTES = 2
 PERIOD_SECONDS = 1200
+SLOTS = range(1, 13)
 
 
 class Side(StrEnum):

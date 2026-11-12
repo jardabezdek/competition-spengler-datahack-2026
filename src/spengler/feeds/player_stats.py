@@ -1,27 +1,17 @@
 """Build skater and goalie stats from the raw event and aggregate exports."""
 
-from common import (
-    AGGREGATES,
-    CONTROL,
-    CONTROLLED,
-    EVENTS,
-    GIVEAWAY,
-    ON_GOAL,
-    PLAYERS,
-    PROCESSED,
-    SLOTS,
-    game_id,
-    write_csv,
-)
-from models import (
+from spengler.models import (
     MINOR_PENALTY_MINUTES,
     PERIOD_SECONDS,
+    SLOTS,
     EventType,
     Position,
     PuckState,
     ShotResult,
     Team,
 )
+from spengler.paths import AGGREGATES, EVENTS, PLAYERS, PROCESSED, game_id
+from spengler.sql import CONTROL, CONTROLLED, GIVEAWAY, ON_GOAL, write_csv
 
 DESTINATION = PROCESSED / "player_stats.csv"
 

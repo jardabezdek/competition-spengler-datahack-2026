@@ -1,9 +1,10 @@
-import os
+"""DuckDB building blocks shared by the processed feeds."""
+
 from pathlib import Path
 
 import duckdb
 
-from models import (
+from spengler.models import (
     ClearType,
     CrossingDirection,
     CrossingResult,
@@ -12,15 +13,7 @@ from models import (
     PuckState,
     ShotResult,
 )
-
-ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data" / os.environ.get("DATASET", "synthetic")
-EVENTS = DATA / "raw" / "20251231_uscs_hcd_events_all.csv"
-AGGREGATES = DATA / "raw" / "20251231_uscs_hcd_aggregates_all.csv"
-PLAYERS = DATA / "reference" / "20251231_uscs_hcd_players.csv"
-PROCESSED = DATA / "processed"
-
-SLOTS = range(1, 13)
+from spengler.paths import ROOT
 
 ON_GOAL = (
     f"EventType = '{EventType.SHOT}' "
@@ -36,10 +29,6 @@ GIVEAWAY = (
     f"(EventType = '{EventType.PASS}' AND PassResult = '{PassResult.INTERCEPTED}') "
     f"OR (EventType = '{EventType.CLEAR}' AND ClearType = '{ClearType.INTERCEPTED}')"
 )
-
-
-def game_id(path: Path) -> str:
-    return path.stem.split("_events", 1)[0]
 
 
 def write_csv(query: str, destination: Path, params: list[str]) -> None:
