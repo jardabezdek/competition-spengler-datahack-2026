@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { SimulatedTag } from "@/components/redesign/data-notice";
 import { PlayerLink } from "@/components/redesign/player-link";
 import { Tooltip, useTooltip } from "@/components/redesign/tooltip";
 import { game, photos, sides, type Side } from "@/lib/game";
@@ -183,8 +182,7 @@ export function PlayerStats({ players, notes }: PlayerStatsData) {
   const shown = players.filter((player) => player.side === side);
 
   return (
-    <section className="rd-card rd-tagged">
-      <SimulatedTag />
+    <section className="rd-card">
       <div className="rd-period-switch" role="tablist" aria-label="Team">
         {sides.map((key) => (
           <button key={key} type="button" role="tab" aria-selected={side === key} onClick={() => setSide(key)}>

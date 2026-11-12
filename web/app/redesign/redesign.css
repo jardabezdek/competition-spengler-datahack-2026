@@ -153,25 +153,6 @@
   }
 }
 
-.rd-tagged {
-  position: relative;
-}
-
-.rd-sim-tag {
-  position: absolute;
-  top: 31px;
-  right: 28px;
-  border: 0;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.rd-sim-tag:hover,
-.rd-sim-tag:focus-visible {
-  background: var(--navy);
-  color: #fff;
-}
-
 .rd-board {
   display: flex;
   flex-direction: column;
@@ -1544,13 +1525,6 @@ html:has(.rd-about[open]) {
 }
 
 @media (max-width: 720px) {
-  .rd-sim-tag {
-    position: static;
-    display: block;
-    width: fit-content;
-    margin: 0 auto 16px;
-  }
-
   .rd-about-lists {
     grid-template-columns: minmax(0, 1fr);
   }

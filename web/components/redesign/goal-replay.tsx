@@ -1,7 +1,6 @@
 "use client";
 
-import { Fragment, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { SyntheticData } from "@/components/redesign/data-notice";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { IconButton } from "@/components/redesign/icon-button";
 import { PlayerLink } from "@/components/redesign/player-link";
 import { game, logos, photos, sides } from "@/lib/game";
@@ -220,7 +219,6 @@ export function GoalReplayDialog({
   onClose: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const synthetic = useContext(SyntheticData);
   const goal = index === null ? null : goals[index];
 
   useEffect(() => {
@@ -254,7 +252,6 @@ export function GoalReplayDialog({
                       {note}
                     </span>
                   ))}
-                  {synthetic && <span className="rd-kicker">Simulated</span>}
                 </p>
                 <p className="rd-replay-scorer">
                   <PlayerLink name={goal.row.shooter} />

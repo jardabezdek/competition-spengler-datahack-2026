@@ -1,10 +1,7 @@
 "use client";
 
-import { createContext, useContext, useRef, type ReactNode, type Ref } from "react";
+import { useRef, type ReactNode, type Ref } from "react";
 import { IconButton } from "@/components/redesign/icon-button";
-
-/** True when the game center runs on the synthetic dataset instead of the organisers' tracking data. */
-export const SyntheticData = createContext(false);
 
 const real = ["Teams and lineups", "Final score", "Goals, scorers and assists", "Penalties"];
 
@@ -80,10 +77,4 @@ export function DataNotice() {
       <AboutDataButton className="rd-data-notice-link">What&apos;s real?</AboutDataButton>
     </div>
   );
-}
-
-/** Tag for a card whose numbers come from the simulation; opens the same explanation. */
-export function SimulatedTag() {
-  if (!useContext(SyntheticData)) return null;
-  return <AboutDataButton className="rd-kicker rd-sim-tag">Simulated</AboutDataButton>;
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { SimulatedTag } from "@/components/redesign/data-notice";
 import { lead, periods, split, type TeamStat } from "@/lib/team-stats";
 
 export function TeamStats({ stats }: { stats: TeamStat[] }) {
@@ -10,8 +9,7 @@ export function TeamStats({ stats }: { stats: TeamStat[] }) {
   const rows = stats.filter((stat) => stat.period === period);
 
   return (
-    <section className="rd-card rd-tagged">
-      <SimulatedTag />
+    <section className="rd-card">
       <div className="rd-period-switch" role="tablist" aria-label="Period">
         {periods.map((item) => (
           <button

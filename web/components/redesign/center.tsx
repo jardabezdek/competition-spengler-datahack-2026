@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SyntheticData } from "@/components/redesign/data-notice";
 import { GameFlow } from "@/components/redesign/game-flow";
 import { Lineups } from "@/components/redesign/lineups";
 import { PlayerStats } from "@/components/redesign/player-stats";
@@ -41,13 +40,11 @@ export function RedesignCenter({
   replays,
   stats,
   players,
-  synthetic,
 }: {
   flow: FlowPlay[];
   replays: GoalReplays;
   stats: TeamStat[];
   players: PlayerStatsData;
-  synthetic: boolean;
 }) {
   const [tab, select] = useHashTab(tabs);
   const [stuck, setStuck] = useState(false);
@@ -62,62 +59,60 @@ export function RedesignCenter({
   }, []);
 
   return (
-    <SyntheticData value={synthetic}>
-      <div className="rd-page">
-        <div ref={sentinel} />
-        <div className={`rd-scorebar${stuck ? " stuck" : ""}`} aria-hidden="true">
-          <div className="rd-wrap rd-mini">
-            <MiniTeam side="home" short="USCS" goals={score[0]} />
-            <span className="rd-mini-dash">-</span>
-            <MiniTeam side="away" short="HCD" goals={score[1]} />
-          </div>
-        </div>
-        <nav className="rd-tabbar" aria-label="Game center">
-          <div className="rd-wrap rd-tabbar-inner">
-            <div className="rd-tabs" role="tablist">
-              {tabs.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className="rd-tab"
-                  role="tab"
-                  id={`rd-tab-${item.id}`}
-                  aria-selected={tab === item.id}
-                  aria-controls="rd-panel"
-                  onClick={() => select(item.id)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </nav>
-        <div className="rd-body">
-          <main className="rd-wrap rd-main" id="rd-panel" role="tabpanel" aria-labelledby={`rd-tab-${tab}`}>
-            {tab === "overview" && <GameFlow plays={flow} replays={replays} />}
-            {tab === "team" && <TeamStats stats={stats} />}
-            {tab === "lineup" && <Lineups />}
-            {tab === "stats" && <PlayerStats {...players} />}
-            {tab === "story" && (
-              <div className="rd-stories">
-                <section className="rd-card rd-story">
-                  <span className="rd-kicker">Match report</span>
-                  <MatchStory kind="report" />
-                </section>
-                <section className="rd-card rd-story">
-                  <span className="rd-kicker">Preview</span>
-                  <MatchStory kind="preview" />
-                </section>
-              </div>
-            )}
-          </main>
-          <aside className="rd-wrap rd-partners" aria-label="Partners">
-            {banners.map((banner) => (
-              <img key={banner.alt} src={banner.src} alt={banner.alt} />
-            ))}
-          </aside>
+    <div className="rd-page">
+      <div ref={sentinel} />
+      <div className={`rd-scorebar${stuck ? " stuck" : ""}`} aria-hidden="true">
+        <div className="rd-wrap rd-mini">
+          <MiniTeam side="home" short="USCS" goals={score[0]} />
+          <span className="rd-mini-dash">-</span>
+          <MiniTeam side="away" short="HCD" goals={score[1]} />
         </div>
       </div>
-    </SyntheticData>
+      <nav className="rd-tabbar" aria-label="Game center">
+        <div className="rd-wrap rd-tabbar-inner">
+          <div className="rd-tabs" role="tablist">
+            {tabs.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className="rd-tab"
+                role="tab"
+                id={`rd-tab-${item.id}`}
+                aria-selected={tab === item.id}
+                aria-controls="rd-panel"
+                onClick={() => select(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+      <div className="rd-body">
+        <main className="rd-wrap rd-main" id="rd-panel" role="tabpanel" aria-labelledby={`rd-tab-${tab}`}>
+          {tab === "overview" && <GameFlow plays={flow} replays={replays} />}
+          {tab === "team" && <TeamStats stats={stats} />}
+          {tab === "lineup" && <Lineups />}
+          {tab === "stats" && <PlayerStats {...players} />}
+          {tab === "story" && (
+            <div className="rd-stories">
+              <section className="rd-card rd-story">
+                <span className="rd-kicker">Match report</span>
+                <MatchStory kind="report" />
+              </section>
+              <section className="rd-card rd-story">
+                <span className="rd-kicker">Preview</span>
+                <MatchStory kind="preview" />
+              </section>
+            </div>
+          )}
+        </main>
+        <aside className="rd-wrap rd-partners" aria-label="Partners">
+          {banners.map((banner) => (
+            <img key={banner.alt} src={banner.src} alt={banner.alt} />
+          ))}
+        </aside>
+      </div>
+    </div>
   );
 }

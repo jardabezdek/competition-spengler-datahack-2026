@@ -18,7 +18,6 @@ export default function RedesignPage() {
         replays={loadGoalReplays()}
         stats={loadTeamStats()}
         players={loadPlayerStats()}
-        synthetic={synthetic}
       />
     </SiteShell>
   );
