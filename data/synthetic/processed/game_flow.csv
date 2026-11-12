@@ -1,0 +1,16 @@
+game_id,period,time,side,type,game_state,score,empty_net,shooter,assist1,assist2,player,penalty_type,penalty_minutes
+20251231_uscs_hcd,1,11:12,home,penalty,fs,,,,,,Aiden Fink,slashing,2
+20251231_uscs_hcd,1,11:15,away,goal,pp,0:1,false,Rasmus Asplund,Enzo Corvi,,,,
+20251231_uscs_hcd,1,13:25,home,goal,fs,1:1,false,Ryan Walsh,Cole Knuble,,,,
+20251231_uscs_hcd,1,14:49,away,goal,fs,1:2,false,Adam Tambellini,Lukas Frick,,,,
+20251231_uscs_hcd,1,15:27,away,penalty,fs,,,,,,Calle Andersson,cross-checking,2
+20251231_uscs_hcd,2,23:56,home,goal,fs,2:2,false,Aiden Fink,Eric Pohlkamp,Ryan Walsh,,,
+20251231_uscs_hcd,2,31:03,away,goal,fs,2:3,false,Adam Tambellini,Enzo Corvi,,,,
+20251231_uscs_hcd,2,33:42,home,goal,fs,3:3,false,Jack Musa,Aiden Fink,T.J. Hughes,,,
+20251231_uscs_hcd,2,39:46,home,penalty,fs,,,,,,Quinn Finley,high-sticking,2
+20251231_uscs_hcd,2,39:46,home,penalty,fs,,,,,,Quinn Finley,high-sticking,2
+20251231_uscs_hcd,3,55:21,away,goal,fs,3:4,false,Filip Zadina,Calle Andersson,,,,
+20251231_uscs_hcd,3,56:48,away,goal,fs,3:5,false,Enzo Corvi,Adam Tambellini,Sven Jung,,,
+20251231_uscs_hcd,3,56:48,home,penalty,fs,,,,,,,delay,2
+20251231_uscs_hcd,3,57:49,away,goal,pp,3:6,false,Matej Stransky,Klas Dahlbeck,Filip Zadina,,,
+20251231_uscs_hcd,3,57:49,home,penalty,pk,,,,,,Aiden Fink,high-sticking,2

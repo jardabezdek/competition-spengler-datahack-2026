@@ -1,6 +1,15 @@
 """Build team comparison stats from the raw event export."""
 
-from common import CONTROL, CONTROLLED, EVENTS, GIVEAWAY, ON_GOAL, ROOT, game_id, write_csv
+from common import (
+    CONTROL,
+    CONTROLLED,
+    EVENTS,
+    GIVEAWAY,
+    ON_GOAL,
+    PROCESSED,
+    game_id,
+    write_csv,
+)
 from models import (
     MINOR_PENALTY_MINUTES,
     EventType,
@@ -11,7 +20,7 @@ from models import (
     TeamStat,
 )
 
-DESTINATION = ROOT / "data" / "processed" / "team_stats.csv"
+DESTINATION = PROCESSED / "team_stats.csv"
 
 FACED = {
     Team.HOME: f"{ON_GOAL} AND team = '{Team.AWAY}' AND home_goalie",
@@ -173,27 +182,35 @@ totals AS (
         {team_count("fow", f"EventType = '{EventType.FACEOFF}'")},
         {power_plays(Team.HOME, Strength.HOME_POWERPLAY)},
         {power_plays(Team.AWAY, Strength.AWAY_POWERPLAY)},
-        {columns(
-            "ppg",
-            f"count(*) FILTER (WHERE EventType = '{EventType.GOAL}' AND team = '{Team.HOME}' AND strength = '{Strength.HOME_POWERPLAY}')",
-            f"count(*) FILTER (WHERE EventType = '{EventType.GOAL}' AND team = '{Team.AWAY}' AND strength = '{Strength.AWAY_POWERPLAY}')",
-        )},
-        {columns(
-            "pim",
-            f"count(*) FILTER (WHERE EventType = '{EventType.PENALTY}' AND team = '{Team.HOME}') * {MINOR_PENALTY_MINUTES}",
-            f"count(*) FILTER (WHERE EventType = '{EventType.PENALTY}' AND team = '{Team.AWAY}') * {MINOR_PENALTY_MINUTES}",
-        )},
-        {columns(
-            "bks",
-            f"count(*) FILTER (WHERE EventType = '{EventType.SHOT}' AND ShotResult = '{ShotResult.BLOCKED}' AND team = '{Team.AWAY}')",
-            f"count(*) FILTER (WHERE EventType = '{EventType.SHOT}' AND ShotResult = '{ShotResult.BLOCKED}' AND team = '{Team.HOME}')",
-        )},
+        {
+    columns(
+        "ppg",
+        f"count(*) FILTER (WHERE EventType = '{EventType.GOAL}' AND team = '{Team.HOME}' AND strength = '{Strength.HOME_POWERPLAY}')",
+        f"count(*) FILTER (WHERE EventType = '{EventType.GOAL}' AND team = '{Team.AWAY}' AND strength = '{Strength.AWAY_POWERPLAY}')",
+    )
+},
+        {
+    columns(
+        "pim",
+        f"count(*) FILTER (WHERE EventType = '{EventType.PENALTY}' AND team = '{Team.HOME}') * {MINOR_PENALTY_MINUTES}",
+        f"count(*) FILTER (WHERE EventType = '{EventType.PENALTY}' AND team = '{Team.AWAY}') * {MINOR_PENALTY_MINUTES}",
+    )
+},
+        {
+    columns(
+        "bks",
+        f"count(*) FILTER (WHERE EventType = '{EventType.SHOT}' AND ShotResult = '{ShotResult.BLOCKED}' AND team = '{Team.AWAY}')",
+        f"count(*) FILTER (WHERE EventType = '{EventType.SHOT}' AND ShotResult = '{ShotResult.BLOCKED}' AND team = '{Team.HOME}')",
+    )
+},
         {team_count("gv", "giveaway")},
-        {columns(
-            "tk",
-            f"count(*) FILTER (WHERE puck_state = '{PuckState.CONTESTED}' AND previous_control = '{PuckState.AWAY}' AND next_control = '{PuckState.HOME}')",
-            f"count(*) FILTER (WHERE puck_state = '{PuckState.CONTESTED}' AND previous_control = '{PuckState.HOME}' AND next_control = '{PuckState.AWAY}')",
-        )},
+        {
+    columns(
+        "tk",
+        f"count(*) FILTER (WHERE puck_state = '{PuckState.CONTESTED}' AND previous_control = '{PuckState.AWAY}' AND next_control = '{PuckState.HOME}')",
+        f"count(*) FILTER (WHERE puck_state = '{PuckState.CONTESTED}' AND previous_control = '{PuckState.HOME}' AND next_control = '{PuckState.AWAY}')",
+    )
+},
         {crossings("entries", ">", "<")},
         {crossings("exits", "<", ">")},
         {faced("soga", "count(*) FILTER (WHERE {where})")},

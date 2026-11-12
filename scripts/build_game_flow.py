@@ -1,9 +1,16 @@
 """Build the game-flow feed from the raw event export."""
 
-from common import EVENTS, ROOT, SLOTS, game_id, write_csv
-from models import MINOR_PENALTY_MINUTES, PERIOD_SECONDS, EventType, GameState, Strength, Team
+from common import EVENTS, PROCESSED, SLOTS, game_id, write_csv
+from models import (
+    MINOR_PENALTY_MINUTES,
+    PERIOD_SECONDS,
+    EventType,
+    GameState,
+    Strength,
+    Team,
+)
 
-DESTINATION = ROOT / "data" / "processed" / "game_flow.csv"
+DESTINATION = PROCESSED / "game_flow.csv"
 
 PLAYER_IDS = ["EventPrimaryPlayerId", *(f"StartPlayerId{slot}" for slot in SLOTS)]
 PLAYER_NAMES = ["EventPrimaryPlayerName", *(f"StartPlayerName{slot}" for slot in SLOTS)]

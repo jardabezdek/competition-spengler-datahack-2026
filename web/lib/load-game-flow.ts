@@ -1,9 +1,9 @@
 import type { Side } from "@/lib/game";
 import type { FlowPlay } from "@/lib/game-flow";
-import { readCsv } from "@/lib/project-files";
+import { processedFile, readCsv } from "@/lib/project-files";
 
 export function loadGameFlow(): FlowPlay[] {
-  return readCsv("data/processed/game_flow.csv").map((row) => ({
+  return readCsv(processedFile("game_flow.csv")).map((row) => ({
     period: Number(row.period),
     time: row.time,
     side: row.side as Side,

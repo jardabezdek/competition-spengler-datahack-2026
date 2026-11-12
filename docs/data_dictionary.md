@@ -1,6 +1,6 @@
 # Team stats data dictionary
 
-Source: `data/processed/team_stats.csv`, built by `make transform` from the raw events export.
+Source: `data/<dataset>/processed/team_stats.csv`, built by `make transform` from the raw events export.
 Each row is one stat for one period of the match. `game_id` is the match, the same value as in `game_flow.csv`. `period` is `all` for the whole game, or `1`, `2`, or `3`. `home` and `away` are the two teams.
 
 | stat_id | label | description |
@@ -26,7 +26,7 @@ Each row is one stat for one period of the match. `game_id` is the match, the sa
 
 # Player stats data dictionary
 
-Source: `data/processed/player_stats.csv`, built by `make transform` from the raw events export, the raw aggregates export and `data/reference/20251231_uscs_hcd_players.csv`, a hand-made roster copied from the official lineup with the columns `game_id`, `team_name`, `player_id`, `first_name`, `last_name`, `number` and `position`.
+Source: `data/<dataset>/processed/player_stats.csv`, built by `make transform` from the raw events export, the raw aggregates export and `data/<dataset>/reference/20251231_uscs_hcd_players.csv`, a hand-made roster copied from the official lineup with the columns `game_id`, `team_name`, `player_id`, `first_name`, `last_name`, `number` and `position`.
 Each row is one player of the match, for the whole game. `game_id` is the match, the same value as in the other files. `player_id` is the player's ID from the event export, or the player's name if the player has no ID (dressed players who did not play, such as backup goalies).
 Skater stats are empty for goalies, and goalie stats are empty for skaters and for goalies who did not play (`toi` is 00:00).
 
@@ -61,7 +61,7 @@ Skater stats are empty for goalies, and goalie stats are empty for skaters and f
 
 # Goal replays data dictionary
 
-Source: `data/processed/goal_replays.json`, built by `make transform` from the raw events export and the roster in `data/reference/20251231_uscs_hcd_players.csv`.
+Source: `data/<dataset>/processed/goal_replays.json`, built by `make transform` from the raw events export and the roster in `data/<dataset>/reference/20251231_uscs_hcd_players.csv`.
 The file holds `blueLine`, the distance in metres from centre ice to each blue line (7.1, measured from the blueline crossings), and `goals`, one replay per goal in game order.
 Coordinates are in metres with (0, 0) at centre ice, x from -30 to 30 and y from -15 to 15. The home team attacks towards positive x in every period.
 A replay starts at the last stoppage of play, or 10 seconds before the goal shot if play ran longer, and follows the puck up to 1.5 seconds after the shot. Times `t` are seconds relative to the goal shot.

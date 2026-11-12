@@ -8,7 +8,7 @@ from common import (
     GIVEAWAY,
     ON_GOAL,
     PLAYERS,
-    ROOT,
+    PROCESSED,
     SLOTS,
     game_id,
     write_csv,
@@ -23,7 +23,7 @@ from models import (
     Team,
 )
 
-DESTINATION = ROOT / "data" / "processed" / "player_stats.csv"
+DESTINATION = PROCESSED / "player_stats.csv"
 
 ON_ICE_IDS = [f"StartPlayerId{slot}" for slot in SLOTS]
 ON_ICE_TEAMS = [f"StartPlayerTeam{slot}" for slot in SLOTS]

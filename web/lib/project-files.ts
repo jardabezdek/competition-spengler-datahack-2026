@@ -6,6 +6,10 @@ export function readProjectFile(name: string) {
   return readFileSync(existsSync(fromWeb) ? fromWeb : path.join(process.cwd(), name), "utf8");
 }
 
+export function processedFile(name: string) {
+  return `data/${process.env.DATASET ?? "synthetic"}/processed/${name}`;
+}
+
 export function csvNumber(value: string) {
   return value === "" ? null : Number(value);
 }

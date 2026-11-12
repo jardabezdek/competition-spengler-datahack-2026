@@ -1,7 +1,7 @@
 import { readDictionary } from "@/lib/data-dictionary";
 import { game, sides } from "@/lib/game";
 import type { PlayerPosition, PlayerStat, PlayerStatsData, StatKey } from "@/lib/player-stats";
-import { csvNumber, readCsv } from "@/lib/project-files";
+import { csvNumber, processedFile, readCsv } from "@/lib/project-files";
 
 const fields: Record<StatKey, string> = {
   toi: "toi",
@@ -34,7 +34,7 @@ function firstSentence(text: string) {
 
 export function loadPlayerStats(): PlayerStatsData {
   const dictionary = readDictionary("Player stats data dictionary");
-  const players = readCsv("data/processed/player_stats.csv").map((row) => {
+  const players = readCsv(processedFile("player_stats.csv")).map((row) => {
     const stats = Object.entries(fields).map(([key, column]) => [
       key,
       key === "toi" ? row[column] : csvNumber(row[column]),

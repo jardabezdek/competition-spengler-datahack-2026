@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import duckdb
@@ -13,9 +14,11 @@ from models import (
 )
 
 ROOT = Path(__file__).resolve().parent.parent
-EVENTS = ROOT / "data" / "raw" / "20251231_uscs_hcd_events_all.csv"
-AGGREGATES = ROOT / "data" / "raw" / "20251231_uscs_hcd_aggregates_all.csv"
-PLAYERS = ROOT / "data" / "reference" / "20251231_uscs_hcd_players.csv"
+DATA = ROOT / "data" / os.environ.get("DATASET", "synthetic")
+EVENTS = DATA / "raw" / "20251231_uscs_hcd_events_all.csv"
+AGGREGATES = DATA / "raw" / "20251231_uscs_hcd_aggregates_all.csv"
+PLAYERS = DATA / "reference" / "20251231_uscs_hcd_players.csv"
+PROCESSED = DATA / "processed"
 
 SLOTS = range(1, 13)
 
@@ -42,5 +45,7 @@ def game_id(path: Path) -> str:
 def write_csv(query: str, destination: Path, params: list[str]) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     duckdb.execute(f"COPY ({query}) TO '{destination}' (HEADER, DELIMITER ',')", params)
-    count = duckdb.execute("SELECT count(*) FROM read_csv(?)", [str(destination)]).fetchone()[0]
+    count = duckdb.execute(
+        "SELECT count(*) FROM read_csv(?)", [str(destination)]
+    ).fetchone()[0]
     print(f"Wrote {count} rows to {destination.relative_to(ROOT)}")

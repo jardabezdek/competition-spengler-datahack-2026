@@ -1,6 +1,6 @@
 import { readDictionary } from "@/lib/data-dictionary";
 import type { Side } from "@/lib/game";
-import { csvNumber, readCsv } from "@/lib/project-files";
+import { csvNumber, processedFile, readCsv } from "@/lib/project-files";
 import type { TeamStat } from "@/lib/team-stats";
 
 const twoDecimals = new Intl.NumberFormat("en", { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: false });
@@ -50,7 +50,7 @@ function annotate(stats: TeamStat[]) {
 
 export function loadTeamStats(): TeamStat[] {
   const labels = readDictionary("Team stats data dictionary");
-  const stats = readCsv("data/processed/team_stats.csv").map((row) => {
+  const stats = readCsv(processedFile("team_stats.csv")).map((row) => {
     const copy = labels.get(row.stat_id);
     const percent = row.stat_id.endsWith("%");
     return {
