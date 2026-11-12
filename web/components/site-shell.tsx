@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Countdown } from "@/components/countdown";
 import { SiteMenu } from "@/components/site-menu";
 import { ViewSwitch, type View } from "@/components/view-switch";
+import { shopUrl, ticketsUrl } from "@/lib/navigation";
 
 function SearchIcon() {
   return (
@@ -18,10 +19,10 @@ function SiteHeader() {
       <div className="header-inner">
         <div className="header-side">
           <div className="header-row">
-            <a className="tool-link" href="https://shop.hcd.ch/spengler-cup" target="_blank" rel="noreferrer">
+            <a className="tool-link" href={shopUrl} target="_blank" rel="noreferrer">
               Fanshop
             </a>
-            <a className="tool-link" href="https://www.spenglercup.ch/en/tickets" target="_blank" rel="noreferrer">
+            <a className="tool-link" href={ticketsUrl} target="_blank" rel="noreferrer">
               Tickets
             </a>
           </div>
@@ -55,11 +56,13 @@ function SiteHeader() {
 
 export function SiteShell({
   active,
+  header = <SiteHeader />,
   hero,
   notice,
   children,
 }: {
   active: View;
+  header?: React.ReactNode;
   hero?: React.ReactNode;
   notice?: React.ReactNode;
   children: React.ReactNode;
@@ -77,11 +80,11 @@ export function SiteShell({
       </div>
       {hero ? (
         <div className="mast">
-          <SiteHeader />
+          {header}
           {hero}
         </div>
       ) : (
-        <SiteHeader />
+        header
       )}
       {children}
       <footer className="site-footer">

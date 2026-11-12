@@ -1,39 +1,7 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties } from "react";
-
-const menu = [
-  {
-    label: "The Tournament",
-    items: [
-      "News",
-      "Games & Standing",
-      "Teams",
-      "Rules & Format",
-      "Ceremonies & Awards",
-      "History",
-      "Hall of Fame",
-    ],
-  },
-  {
-    label: "Your visit",
-    items: [
-      "Kombi-Tickets",
-      "VIP-Offers",
-      "Arrival",
-      "Catering & Public Viewing",
-      "Entertainment",
-    ],
-  },
-  {
-    label: "Media",
-    items: ["Livestream", "Spengler Cup Today", "Yearbooks", "Information for media representatives"],
-  },
-  {
-    label: "About us",
-    items: ["Facts & Figures", "Sponsors & Partners", "Sustainability", "Contact"],
-  },
-];
+import { menu } from "@/lib/navigation";
 
 export function SiteMenu() {
   const [open, setOpen] = useState(false);

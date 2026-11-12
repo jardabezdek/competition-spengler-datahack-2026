@@ -24,7 +24,9 @@ function ClockRow({ parts, className, hidden }: { parts: string[]; className: st
   );
 }
 
-export function Countdown() {
+export const COUNTDOWN_LABEL = "Countdown to the first game on 26 December 2026 at 15:10 CET";
+
+export function useCountdown() {
   const [now, setNow] = useState<number | null>(null);
 
   useEffect(() => {
@@ -33,10 +35,14 @@ export function Countdown() {
     return () => window.clearInterval(id);
   }, []);
 
-  const parts = now === null ? ["--", "--", "--", "--"] : remaining(now);
+  return now === null ? ["--", "--", "--", "--"] : remaining(now);
+}
+
+export function Countdown() {
+  const parts = useCountdown();
 
   return (
-    <div className="countdown" role="timer" aria-label="Countdown to the first game on 26 December 2026 at 15:10 CET">
+    <div className="countdown" role="timer" aria-label={COUNTDOWN_LABEL}>
       <ClockRow className="countdown-time" parts={parts} />
       <ClockRow className="countdown-units" parts={["D", "H", "M", "S"]} hidden />
     </div>
