@@ -1502,6 +1502,9 @@ html:has(.rd-about[open]) {
   }
 
   .rd-partners img {
+    position: sticky;
+    top: 108px;
+    align-self: start;
     grid-row: 1;
     width: 100%;
     height: auto;
