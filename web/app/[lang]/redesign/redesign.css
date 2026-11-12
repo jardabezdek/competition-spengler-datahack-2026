@@ -153,6 +153,12 @@
   }
 }
 
+@media (max-width: 420px) {
+  .rd-data-notice-short {
+    display: none;
+  }
+}
+
 .rd-board {
   display: flex;
   flex-direction: column;
@@ -1995,7 +2001,8 @@ html:has(.rd-about[open]) {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.rd-lang button {
+.rd-lang a {
+  display: block;
   padding: 5px 10px;
   border: 0;
   border-radius: 999px;
@@ -2005,15 +2012,15 @@ html:has(.rd-about[open]) {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  cursor: pointer;
+  text-decoration: none;
   transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.rd-lang button:hover {
+.rd-lang a:hover {
   color: #fff;
 }
 
-.rd-lang button[aria-pressed="true"] {
+.rd-lang a[aria-current="page"] {
   background: #fff;
   color: var(--navy);
 }

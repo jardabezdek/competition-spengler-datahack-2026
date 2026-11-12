@@ -9,12 +9,7 @@ export type TeamStat = {
   awayLabel: string;
 };
 
-export const periods = [
-  { id: "all", label: "Game" },
-  { id: "1", label: "1st Period" },
-  { id: "2", label: "2nd Period" },
-  { id: "3", label: "3rd Period" },
-] as const;
+export const periods = ["all", "1", "2", "3"] as const;
 
 export function lead(value: number | null, other: number | null) {
   return value != null && other != null && value > other ? "lead" : undefined;

@@ -6,6 +6,9 @@ loadEnvConfig(path.join(__dirname, ".."));
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  async redirects() {
+    return [{ source: "/redesign", destination: "/en/redesign", permanent: false }];
+  },
 };
 
 export default nextConfig;

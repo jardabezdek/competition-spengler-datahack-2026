@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { COUNTDOWN_LABEL, useCountdown } from "@/components/countdown";
-import { menu, shopUrl, ticketsUrl } from "@/lib/navigation";
+import { useCountdown } from "@/components/countdown";
+import { useLanguage } from "@/components/redesign/language";
+import { localeNames, locales, redesignPath } from "@/lib/i18n";
+import { shopUrl } from "@/lib/navigation";
 
 const icons = {
   chevron: "m6 9 6 6 6-6",
@@ -55,51 +58,52 @@ function useReducedMotion() {
   return reduced;
 }
 
-const languages = [
-  { code: "DE", name: "Deutsch" },
-  { code: "EN", name: "English" },
-] as const;
-
-type Language = (typeof languages)[number]["code"];
-
-function LanguageSwitch({ value, onChange }: { value: Language; onChange: (next: Language) => void }) {
+function LanguageSwitch() {
+  const { language: current, t } = useLanguage();
+  const router = useRouter();
   return (
-    <div className="rd-lang" role="group" aria-label="Language">
-      {languages.map((language) => (
-        <button
-          key={language.code}
-          type="button"
-          lang={language.code.toLowerCase()}
-          aria-label={language.name}
-          aria-pressed={value === language.code}
-          onClick={() => onChange(language.code)}
+    <nav className="rd-lang" aria-label={t.header.language}>
+      {locales.map((language) => (
+        <Link
+          key={language}
+          href={redesignPath(language)}
+          hrefLang={language}
+          lang={language}
+          aria-label={localeNames[language]}
+          aria-current={current === language ? "page" : undefined}
+          onClick={(event) => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            router.push(redesignPath(language) + window.location.hash, { scroll: false });
+          }}
         >
-          {language.code}
-        </button>
+          {language.toUpperCase()}
+        </Link>
       ))}
-    </div>
+    </nav>
   );
 }
 
 /** The ticking seconds stay hidden for people who ask for reduced motion. */
-function countdownUnits([days, hours, minutes, seconds]: string[], reduced: boolean) {
+function countdownUnits([days, hours, minutes, seconds]: string[], labels: string[], reduced: boolean) {
   const units = [
-    [days.replace(/^0(?=\d)/, ""), "d"],
-    [hours, "h"],
-    [minutes, "m"],
+    [days.replace(/^0(?=\d)/, ""), labels[0]],
+    [hours, labels[1]],
+    [minutes, labels[2]],
   ];
-  if (!reduced) units.push([seconds, "s"]);
+  if (!reduced) units.push([seconds, labels[3]]);
   return units;
 }
 
 function CountdownStrip() {
-  const units = countdownUnits(useCountdown(), useReducedMotion());
+  const { t } = useLanguage();
+  const units = countdownUnits(useCountdown(), t.header.units, useReducedMotion());
 
   return (
     <div className="rd-strip">
       <div className="rd-strip-inner">
-        <div className="rd-strip-clock" role="timer" aria-label={COUNTDOWN_LABEL}>
-          <span aria-hidden="true">Puck drop in</span>
+        <div className="rd-strip-clock" role="timer" aria-label={t.header.countdown}>
+          <span aria-hidden="true">{t.header.puckDrop}</span>
           <span className="rd-strip-time" aria-hidden="true">
             {units.map(([value, unit]) => (
               <span key={unit}>
@@ -111,7 +115,7 @@ function CountdownStrip() {
         </div>
         <span aria-hidden="true">·</span>
         <span className="rd-strip-timed">
-          <span className="rd-strip-timed-label">timed by</span>
+          <span className="rd-strip-timed-label">{t.header.timedBy}</span>
           <img src="/norqain-inline.svg" alt="NORQAIN" />
         </span>
       </div>
@@ -120,6 +124,7 @@ function CountdownStrip() {
 }
 
 function MainNav() {
+  const { t } = useLanguage();
   const [open, setOpen] = useState<string | null>(null);
   // A dropdown opened by hovering stays open on the first click instead of toggling shut.
   const viaHover = useRef(false);
@@ -144,7 +149,7 @@ function MainNav() {
     <nav
       ref={nav}
       className="rd-nav"
-      aria-label="Main"
+      aria-label={t.header.mainNav}
       onPointerLeave={(event) => {
         if (event.pointerType === "mouse") setOpen(null);
       }}
@@ -153,7 +158,7 @@ function MainNav() {
       }}
     >
       <ul className="rd-nav-list">
-        {menu.map((entry, index) => {
+        {t.header.menu.map((entry, index) => {
           const expanded = open === entry.label;
           const panel = `${id}-${index}`;
           return (
@@ -201,9 +206,8 @@ function MainNav() {
   );
 }
 
-const popular = ["Games & Standing", "Teams", "Kombi-Tickets", "Livestream"];
-
 function SearchPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useLanguage();
   const input = useRef<HTMLInputElement>(null);
 
   useEscape(open, onClose);
@@ -217,14 +221,14 @@ function SearchPanel({ open, onClose }: { open: boolean; onClose: () => void }) 
       <form className="rd-search-inner" role="search" onSubmit={(event) => event.preventDefault()}>
         <div className="rd-search-field">
           <Icon name="search" />
-          <input ref={input} type="search" placeholder="Search news, teams and players" aria-label="Search the site" />
-          <button type="button" className="rd-icon-btn" aria-label="Close search" onClick={onClose}>
+          <input ref={input} type="search" placeholder={t.header.searchPlaceholder} aria-label={t.header.searchLabel} />
+          <button type="button" className="rd-icon-btn" aria-label={t.header.closeSearch} onClick={onClose}>
             <Icon name="close" />
           </button>
         </div>
         <div className="rd-quick">
-          <span className="rd-quick-label">Popular</span>
-          {popular.map((item) => (
+          <span className="rd-quick-label">{t.header.popular}</span>
+          {t.header.popularItems.map((item) => (
             <button key={item} type="button" className="rd-chip">
               {item}
             </button>
@@ -235,17 +239,8 @@ function SearchPanel({ open, onClose }: { open: boolean; onClose: () => void }) 
   );
 }
 
-function Drawer({
-  open,
-  onClose,
-  language,
-  onLanguage,
-}: {
-  open: boolean;
-  onClose: () => void;
-  language: Language;
-  onLanguage: (next: Language) => void;
-}) {
+function Drawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useLanguage();
   const [section, setSection] = useState<string | null>(null);
   const close = useRef<HTMLButtonElement>(null);
   const id = useId();
@@ -263,17 +258,17 @@ function Drawer({
   }, [open]);
 
   return (
-    <div id="rd-drawer" className={`rd-drawer${open ? " open" : ""}`} role="dialog" aria-modal="true" aria-label="Menu">
+    <div id="rd-drawer" className={`rd-drawer${open ? " open" : ""}`} role="dialog" aria-modal="true" aria-label={t.header.menuLabel}>
       <div className="rd-drawer-top">
-        <button ref={close} type="button" className="rd-icon-btn" aria-label="Close menu" onClick={onClose}>
+        <button ref={close} type="button" className="rd-icon-btn" aria-label={t.header.closeMenu} onClick={onClose}>
           <Icon name="close" />
         </button>
         <span className="rd-brand">
           <img src="/spengler-logo.svg" alt="Spengler Cup Davos" />
         </span>
       </div>
-      <nav className="rd-drawer-nav" aria-label="Main">
-        {menu.map((entry, index) => {
+      <nav className="rd-drawer-nav" aria-label={t.header.mainNav}>
+        {t.header.menu.map((entry, index) => {
           const expanded = section === entry.label;
           const panel = `${id}-${index}`;
           return (
@@ -303,15 +298,15 @@ function Drawer({
       </nav>
       <div className="rd-drawer-foot">
         <div className="rd-drawer-row">
-          <span>Language</span>
-          <LanguageSwitch value={language} onChange={onLanguage} />
+          <span>{t.header.language}</span>
+          <LanguageSwitch />
         </div>
         <div className="rd-drawer-actions">
           <ExternalLink className="rd-ghost" href={shopUrl}>
-            Fanshop
+            {t.header.shop}
           </ExternalLink>
-          <ExternalLink className="rd-tickets" href={ticketsUrl}>
-            Tickets
+          <ExternalLink className="rd-tickets" href={t.header.ticketsUrl}>
+            {t.header.tickets}
           </ExternalLink>
         </div>
       </div>
@@ -323,8 +318,7 @@ export function RedesignHeader() {
   const [stuck, setStuck] = useState(false);
   const [searching, setSearching] = useState(false);
   const [drawer, setDrawer] = useState(false);
-  // Only the toggle is wired up: the page has no German copy to switch to.
-  const [language, setLanguage] = useState<Language>("EN");
+  const { language, t } = useLanguage();
   const header = useRef<HTMLElement>(null);
   const burger = useRef<HTMLButtonElement>(null);
   const searchButton = useRef<HTMLButtonElement>(null);
@@ -354,24 +348,24 @@ export function RedesignHeader() {
             ref={burger}
             type="button"
             className="rd-icon-btn rd-burger"
-            aria-label="Open menu"
+            aria-label={t.header.openMenu}
             aria-expanded={drawer}
             aria-controls="rd-drawer"
             onClick={() => setDrawer(true)}
           >
             <Icon name="menu" />
           </button>
-          <Link href="/redesign" className="rd-brand" aria-label="Spengler Cup Davos">
+          <Link href={redesignPath(language)} className="rd-brand" aria-label="Spengler Cup Davos">
             <img src="/spengler-logo.svg" alt="" />
           </Link>
           <MainNav />
           <div className="rd-tools">
-            <LanguageSwitch value={language} onChange={setLanguage} />
+            <LanguageSwitch />
             <button
               ref={searchButton}
               type="button"
               className="rd-icon-btn"
-              aria-label="Search"
+              aria-label={t.header.search}
               aria-expanded={searching}
               aria-controls="rd-search"
               onClick={() => setSearching((value) => !value)}
@@ -379,16 +373,16 @@ export function RedesignHeader() {
               <Icon name="search" />
             </button>
             <ExternalLink className="rd-shop" href={shopUrl}>
-              Fanshop
+              {t.header.shop}
             </ExternalLink>
-            <ExternalLink className="rd-tickets" href={ticketsUrl}>
-              Tickets
+            <ExternalLink className="rd-tickets" href={t.header.ticketsUrl}>
+              {t.header.tickets}
             </ExternalLink>
           </div>
         </div>
         <SearchPanel open={searching} onClose={closeSearch} />
       </header>
-      <Drawer open={drawer} onClose={closeDrawer} language={language} onLanguage={setLanguage} />
+      <Drawer open={drawer} onClose={closeDrawer} />
     </>
   );
 }

@@ -3,11 +3,12 @@
 import { Fragment, useState } from "react";
 import { PuckIcon } from "@/components/icons";
 import { GoalReplayDialog, type ReplayGoal } from "@/components/redesign/goal-replay";
+import { useLanguage } from "@/components/redesign/language";
 import { PlayerLink } from "@/components/redesign/player-link";
 import { Tooltip, useTooltip } from "@/components/redesign/tooltip";
 import { flowRows, goalNotes, penaltyLabel, type FlowPlay, type FlowRow } from "@/lib/game-flow";
 import { replayKey, type GoalReplays } from "@/lib/goal-replay";
-import { periodLabels } from "@/lib/timeline";
+import { format } from "@/lib/i18n";
 
 function PlayIcon() {
   return (
@@ -20,6 +21,7 @@ function PlayIcon() {
 type Replay = { open: () => void; showTip: (element: Element) => void; hideTip: () => void; tipId?: string };
 
 function Marker({ row, replay }: { row: FlowRow; replay?: Replay }) {
+  const { t } = useLanguage();
   if (row.type === "goal") {
     const score = row.score.replace(":", " - ");
     const puck = <PuckIcon size={16} />;
@@ -41,7 +43,7 @@ function Marker({ row, replay }: { row: FlowRow; replay?: Replay }) {
           if (event.currentTarget.matches(":focus-visible")) replay.showTip(event.currentTarget);
         }}
         onBlur={replay.hideTip}
-        aria-label={`Watch the replay of ${row.shooter}'s goal, ${score}`}
+        aria-label={format(t.flow.replayLabel, { shooter: row.shooter, score })}
         aria-describedby={replay.tipId}
       >
         {row.side === "home" && <PlayIcon />}
@@ -63,8 +65,9 @@ function Marker({ row, replay }: { row: FlowRow; replay?: Replay }) {
 }
 
 function Description({ row }: { row: FlowRow }) {
+  const { t } = useLanguage();
   const player = row.type === "goal" ? row.shooter : row.player;
-  const detail = row.type === "penalty" ? penaltyLabel(row.penalty) : goalNotes(row).join(", ");
+  const detail = row.type === "penalty" ? penaltyLabel(row.penalty, t.flow.penalties) : goalNotes(row, t.flow).join(", ");
   const name = player && (
     <span className="rd-player-name">
       <PlayerLink name={player} />
@@ -109,6 +112,7 @@ function Event({ row, replay }: { row: FlowRow; replay?: Replay }) {
 }
 
 export function GameFlow({ plays, replays }: { plays: FlowPlay[]; replays: GoalReplays }) {
+  const { t } = useLanguage();
   const feed = flowRows(plays);
   const [open, setOpen] = useState<number | null>(null);
   const tooltip = useTooltip<number>();
@@ -121,7 +125,7 @@ export function GameFlow({ plays, replays }: { plays: FlowPlay[]; replays: GoalR
   return (
     <section className="rd-card">
       <div className="rd-flow">
-        {periodLabels.map((label, period) => (
+        {t.periods.map((label, period) => (
           <section key={label}>
             <header className="rd-period-strip">
               <h3>{label}</h3>
@@ -150,8 +154,8 @@ export function GameFlow({ plays, replays }: { plays: FlowPlay[]; replays: GoalR
       </div>
       {tooltip.tip && (
         <Tooltip tip={tooltip.tip} id={tooltip.id}>
-          <strong>Watch goal replay</strong>
-          See the play that led to the goal, player by player, on the rink.
+          <strong>{t.flow.replayTipTitle}</strong>
+          {t.flow.replayTip}
         </Tooltip>
       )}
       <GoalReplayDialog

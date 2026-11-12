@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/i18n";
+
 /** Game-center content for the 31 Dec 2025 final, taken from the public Spengler Cup page. */
 
 const SOURCE_URL =
@@ -145,8 +147,8 @@ export const fullName = (player: Player) => `${player.first} ${player.last}`;
 
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z]/g, "");
 
-export const profileUrl = (player: Player) =>
-  new URL(`/en/spieler/${player.number}-${slug(player.last)}_${slug(player.first)}`, SOURCE_URL).href;
+export const profileUrl = (player: Player, language: Locale = "en") =>
+  new URL(`/${language}/spieler/${player.number}-${slug(player.last)}_${slug(player.first)}`, SOURCE_URL).href;
 
 export const photos: Record<Side, Record<number, string>> = {
   home: {
@@ -302,9 +304,9 @@ export const lineup: Record<Side, Line[]> = {
 
 const roster = sides.flatMap((side) => lineup[side].flatMap((line) => line.players));
 
-export const profileByName = (name: string) => {
+export const profileByName = (name: string, language: Locale) => {
   const player = roster.find((candidate) => fullName(candidate) === name);
-  return player && profileUrl(player);
+  return player && profileUrl(player, language);
 };
 
 type TeamStat = {
@@ -407,7 +409,9 @@ export const goalieStats: Record<Side, GoalieStat[]> = {
   ],
 };
 
-export const stories = {
+export type Story = { title: string; paragraphs: string[]; linkLabel: string; href: string };
+
+export const stories: Record<"report" | "preview", Story> = {
   report: {
     title: "HC Davos crowned record Spengler Cup champion",
     paragraphs: [

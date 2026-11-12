@@ -2,16 +2,14 @@
 
 import { useState } from "react";
 import icon from "@/app/icon.png";
+import { useLanguage } from "@/components/redesign/language";
 import { PlayerLink } from "@/components/redesign/player-link";
 import { fullName, game, lineup, logos, photos, type Player, type Side } from "@/lib/game";
+import { format } from "@/lib/i18n";
 
-const lines = [
-  { id: "1", label: "1st Line" },
-  { id: "2", label: "2nd Line" },
-  { id: "3", label: "3rd Line" },
-  { id: "4", label: "4th Line" },
-  { id: "subs", label: "Substitutes" },
-] as const;
+const lines = ["1", "2", "3", "4", "subs"] as const;
+
+type Line = (typeof lines)[number];
 
 const formation: Record<Side, Record<string, number[]>> = {
   home: {
@@ -130,22 +128,23 @@ function Ice() {
 }
 
 export function Lineups() {
-  const [line, setLine] = useState<string>("1");
+  const { t } = useLanguage();
+  const [line, setLine] = useState<Line>("1");
 
   return (
     <section className="rd-card">
       <div className="rd-lineup-bar">
         <img className="rd-lineup-logo" src={logos.home} alt={game.home} />
-        <div className="rd-period-switch" role="tablist" aria-label="Line">
+        <div className="rd-period-switch" role="tablist" aria-label={t.lineup.line}>
           {lines.map((item) => (
-            <button key={item.id} type="button" role="tab" aria-selected={line === item.id} onClick={() => setLine(item.id)}>
-              {item.label}
+            <button key={item} type="button" role="tab" aria-selected={line === item} onClick={() => setLine(item)}>
+              {t.lineup.lines[item]}
             </button>
           ))}
         </div>
         <img className="rd-lineup-logo" src={logos.away} alt={game.away} />
       </div>
-      <div className="rd-rink" style={{ aspectRatio: `${ice.width} / ${ice.height}` }} aria-label={`${lines.find((item) => item.id === line)!.label} on the rink`}>
+      <div className="rd-rink" style={{ aspectRatio: `${ice.width} / ${ice.height}` }} aria-label={format(t.lineup.onRink, { line: t.lineup.lines[line] })}>
         <Ice />
         <img className="rd-center-logo" src={icon.src} alt="" />
         <Half side="home" line={line} />

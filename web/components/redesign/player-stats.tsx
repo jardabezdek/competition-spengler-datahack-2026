@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/components/redesign/language";
 import { PlayerLink } from "@/components/redesign/player-link";
 import { Tooltip, useTooltip } from "@/components/redesign/tooltip";
 import { game, photos, sides, type Side } from "@/lib/game";
@@ -49,15 +50,14 @@ const goalieColumns: Column[] = [
 
 const byPoints: Sort = { key: "points", direction: "descending" };
 
-const groups: { position: PlayerPosition; title: string; columns: Column[]; sort?: Sort }[] = [
+const groups: { position: PlayerPosition; columns: Column[]; sort?: Sort }[] = [
   {
     position: "F",
-    title: "Forwards",
     columns: [...skaterColumns, { key: "faceoffPct", label: "FO%", percent: true }],
     sort: byPoints,
   },
-  { position: "D", title: "Defenders", columns: skaterColumns, sort: byPoints },
-  { position: "G", title: "Goalies", columns: goalieColumns },
+  { position: "D", columns: skaterColumns, sort: byPoints },
+  { position: "G", columns: goalieColumns },
 ];
 
 function numeric(player: PlayerStat, key: StatKey) {
@@ -111,9 +111,11 @@ function StatsTable({
   notes: Notes;
   initialSort?: Sort;
 }) {
+  const { t } = useLanguage();
   const [sort, setSort] = useState(initialSort ?? null);
   const tooltip = useTooltip<StatKey>();
-  const note = tooltip.tip && notes[tooltip.tip.key];
+  const noteFor = (key: StatKey) => t.playerStats.notes?.[key] ?? notes[key];
+  const note = tooltip.tip && noteFor(tooltip.tip.key);
 
   const rows = sort ? [...players].sort((a, b) => compare(a, b, sort.key, sort.direction)) : players;
 
@@ -124,7 +126,7 @@ function StatsTable({
         <table className="rd-table">
           <thead>
             <tr>
-              <th>Player</th>
+              <th>{t.playerStats.player}</th>
               {columns.map((column) => (
                 <th
                   key={column.key}
@@ -134,7 +136,7 @@ function StatsTable({
                 >
                   <button
                     type="button"
-                    aria-label={notes[column.key]?.label}
+                    aria-label={noteFor(column.key)?.label}
                     aria-describedby={tooltip.tip?.key === column.key ? tooltip.id : undefined}
                     onClick={() => setSort(nextSort(sort, column.key))}
                     onFocus={(event) => {
@@ -143,7 +145,7 @@ function StatsTable({
                     }}
                     onBlur={tooltip.hide}
                   >
-                    {column.label}
+                    {t.playerStats.columns?.[column.key] ?? column.label}
                   </button>
                 </th>
               ))}
@@ -178,12 +180,13 @@ function StatsTable({
 }
 
 export function PlayerStats({ players, notes }: PlayerStatsData) {
+  const { t } = useLanguage();
   const [side, setSide] = useState<Side>("home");
   const shown = players.filter((player) => player.side === side);
 
   return (
     <section className="rd-card">
-      <div className="rd-period-switch" role="tablist" aria-label="Team">
+      <div className="rd-period-switch" role="tablist" aria-label={t.playerStats.team}>
         {sides.map((key) => (
           <button key={key} type="button" role="tab" aria-selected={side === key} onClick={() => setSide(key)}>
             {game[key]}
@@ -194,7 +197,7 @@ export function PlayerStats({ players, notes }: PlayerStatsData) {
         {groups.map((group) => (
           <StatsTable
             key={group.position}
-            title={group.title}
+            title={t.playerStats.groups[group.position]}
             players={shown.filter((player) => player.position === group.position)}
             columns={group.columns}
             notes={notes}

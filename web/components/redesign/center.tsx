@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { GameFlow } from "@/components/redesign/game-flow";
+import { useLanguage } from "@/components/redesign/language";
 import { Lineups } from "@/components/redesign/lineups";
 import { PlayerStats } from "@/components/redesign/player-stats";
 import { TeamStats } from "@/components/redesign/team-stats";
@@ -27,13 +28,7 @@ function MiniTeam({ side, short, goals }: { side: Side; short: string; goals: nu
   );
 }
 
-const tabs = [
-  { id: "overview", label: "Overview" },
-  { id: "lineup", label: "Lineup" },
-  { id: "team", label: "Team stats" },
-  { id: "stats", label: "Player stats" },
-  { id: "story", label: "Report & Preview" },
-] as const;
+const tabs = [{ id: "overview" }, { id: "lineup" }, { id: "team" }, { id: "stats" }, { id: "story" }] as const;
 
 export function RedesignCenter({
   flow,
@@ -46,6 +41,7 @@ export function RedesignCenter({
   stats: TeamStat[];
   players: PlayerStatsData;
 }) {
+  const { t } = useLanguage();
   const [tab, select] = useHashTab(tabs);
   const [stuck, setStuck] = useState(false);
   const sentinel = useRef<HTMLDivElement>(null);
@@ -68,7 +64,7 @@ export function RedesignCenter({
           <MiniTeam side="away" short="HCD" goals={score[1]} />
         </div>
       </div>
-      <nav className="rd-tabbar" aria-label="Game center">
+      <nav className="rd-tabbar" aria-label={t.center.gameCenter}>
         <div className="rd-wrap rd-tabbar-inner">
           <div className="rd-tabs" role="tablist">
             {tabs.map((item) => (
@@ -82,7 +78,7 @@ export function RedesignCenter({
                 aria-controls="rd-panel"
                 onClick={() => select(item.id)}
               >
-                {item.label}
+                {t.center.tabs[item.id]}
               </button>
             ))}
           </div>
@@ -97,17 +93,17 @@ export function RedesignCenter({
           {tab === "story" && (
             <div className="rd-stories">
               <section className="rd-card rd-story">
-                <span className="rd-kicker">Match report</span>
-                <MatchStory kind="report" />
+                <span className="rd-kicker">{t.center.report}</span>
+                <MatchStory kind="report" story={t.center.stories.report} />
               </section>
               <section className="rd-card rd-story">
-                <span className="rd-kicker">Preview</span>
-                <MatchStory kind="preview" />
+                <span className="rd-kicker">{t.center.preview}</span>
+                <MatchStory kind="preview" story={t.center.stories.preview} />
               </section>
             </div>
           )}
         </main>
-        <aside className="rd-wrap rd-partners" aria-label="Partners">
+        <aside className="rd-wrap rd-partners" aria-label={t.center.partners}>
           {banners.map((banner) => (
             <img key={banner.alt} src={banner.src} alt={banner.alt} />
           ))}

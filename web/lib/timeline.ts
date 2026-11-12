@@ -5,6 +5,4 @@ export function minutes(time: string) {
   return whole + seconds / 60;
 }
 
-export const periodLabels = ["1st period", "2nd period", "3rd period"];
-
 export const score = game.score.split(":").map(Number);

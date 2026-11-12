@@ -1,4 +1,5 @@
 import type { Side } from "@/lib/game";
+import { format, type CaptionKey } from "@/lib/i18n";
 
 export type ReplayPlayer = { name: string; number: number; side: Side };
 
@@ -149,29 +150,24 @@ function playerLabel(player: ReplayPlayer) {
   return `#${player.number} ${player.name.split(" ").slice(1).join(" ")}`;
 }
 
-export function captionText(caption: ReplayCaption, players: Record<string, ReplayPlayer>) {
-  const who = playerLabel(players[caption.player]);
+function captionKey(caption: ReplayCaption): CaptionKey {
   switch (caption.kind) {
-    case "faceoff":
-      return `${who} wins the faceoff`;
     case "pass":
-      if (caption.result === "successful") return `${who} passes to ${playerLabel(players[caption.target!])}`;
-      if (caption.result === "intercepted") return `${who}'s pass is intercepted`;
-      return `${who}'s pass misses its target`;
-    case "entry":
-      return `${who} carries the puck into the zone`;
-    case "exit":
-      return `${who} carries the puck out of the zone`;
-    case "dump":
-      return `${who} dumps the puck`;
-    case "clear":
-      return `${who} clears the puck`;
+      if (caption.result === "successful") return "pass";
+      return caption.result === "intercepted" ? "passIntercepted" : "passMissed";
     case "shot":
-      if (caption.result === "goal") return `Goal! ${who} scores`;
-      if (caption.result === "saved") return `${who}'s shot is saved`;
-      if (caption.result === "blocked") return `${who}'s shot is blocked`;
-      return `${who} misses the net`;
+      if (caption.result === "goal" || caption.result === "saved" || caption.result === "blocked") return caption.result;
+      return "missed";
+    default:
+      return caption.kind;
   }
+}
+
+export function captionText(caption: ReplayCaption, players: Record<string, ReplayPlayer>, phrases: Record<CaptionKey, string>) {
+  return format(phrases[captionKey(caption)], {
+    who: playerLabel(players[caption.player]),
+    target: caption.target ? playerLabel(players[caption.target]) : "",
+  });
 }
 
 export function gameClock(seconds: number) {

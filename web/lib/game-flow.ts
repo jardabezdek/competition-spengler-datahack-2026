@@ -17,17 +17,15 @@ export type FlowPlay = {
 
 export type FlowRow = FlowPlay & { lengths: number[] };
 
-const penaltyNames: Record<string, string> = { delay: "Delay of game" };
-
-export function penaltyLabel(value: string) {
-  return penaltyNames[value] ?? value.charAt(0).toUpperCase() + value.slice(1);
+export function penaltyLabel(value: string, names: Record<string, string>) {
+  return names[value] ?? value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-export function goalNotes(play: FlowPlay) {
+export function goalNotes(play: FlowPlay, labels: { powerPlay: string; emptyNet: string }) {
   if (play.type !== "goal") return [];
   const notes = [];
-  if (play.gameState === "pp") notes.push("Power play");
-  if (play.emptyNet) notes.push("Empty net");
+  if (play.gameState === "pp") notes.push(labels.powerPlay);
+  if (play.emptyNet) notes.push(labels.emptyNet);
   return notes;
 }
 

@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { IconButton } from "@/components/redesign/icon-button";
+import { useLanguage } from "@/components/redesign/language";
 import { PlayerLink } from "@/components/redesign/player-link";
 import { game, logos, photos, sides } from "@/lib/game";
 import { goalNotes, type FlowRow } from "@/lib/game-flow";
@@ -17,7 +18,7 @@ import {
   type GoalReplay,
   type Point,
 } from "@/lib/goal-replay";
-import { periodLabels } from "@/lib/timeline";
+import { format } from "@/lib/i18n";
 
 export type ReplayGoal = { row: FlowRow; replay: GoalReplay };
 
@@ -75,6 +76,7 @@ function Markings({ blueLine }: { blueLine: number }) {
 }
 
 function Replay({ replay, blueLine }: { replay: GoalReplay; blueLine: number }) {
+  const { t } = useLanguage();
   const { start, end } = timeRange(replay);
   const skaters = useMemo(() => tracks(replay), [replay]);
   const arrival = useMemo(() => replay.frames.findLast((frame) => frame.puck)!.t, [replay]);
@@ -121,7 +123,7 @@ function Replay({ replay, blueLine }: { replay: GoalReplay; blueLine: number }) 
 
   return (
     <>
-      <svg className="rd-replay-rink" viewBox="-30.5 -15.5 61 31" role="img" aria-label="Top-down replay of the goal">
+      <svg className="rd-replay-rink" viewBox="-30.5 -15.5 61 31" role="img" aria-label={t.replay.rink}>
         <Markings blueLine={blueLine} />
         <Net
           end={replay.side === "home" ? 1 : -1}
@@ -160,7 +162,7 @@ function Replay({ replay, blueLine }: { replay: GoalReplay; blueLine: number }) 
         <circle className="rd-replay-puck" cx={puck.at(-1)!.x.toFixed(2)} cy={(-puck.at(-1)!.y).toFixed(2)} r="0.42" />
       </svg>
       <div className="rd-replay-controls">
-        <button type="button" className="rd-replay-play" onClick={toggle} aria-label={playing ? "Pause replay" : "Play replay"}>
+        <button type="button" className="rd-replay-play" onClick={toggle} aria-label={playing ? t.replay.pause : t.replay.play}>
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
             <path d={playing ? "M4 3h3v10H4zM9 3h3v10H9z" : "M4.5 2.5v11l9-5.5z"} fill="currentColor" />
           </svg>
@@ -172,8 +174,8 @@ function Replay({ replay, blueLine }: { replay: GoalReplay; blueLine: number }) 
             max={end}
             step={0.01}
             value={time}
-            aria-label="Replay position"
-            aria-valuetext={`Game time ${gameClock(replay.shotClock + time)}`}
+            aria-label={t.replay.position}
+            aria-valuetext={format(t.replay.gameTime, { clock: gameClock(replay.shotClock + time) })}
             onChange={(event) => {
               setPlaying(false);
               seek(Number(event.target.value));
@@ -190,7 +192,7 @@ function Replay({ replay, blueLine }: { replay: GoalReplay; blueLine: number }) 
           </span>
         </div>
         <time className="rd-replay-clock">{gameClock(replay.shotClock + time)}</time>
-        <div className="rd-replay-speed" role="group" aria-label="Playback speed">
+        <div className="rd-replay-speed" role="group" aria-label={t.replay.speed}>
           {speeds.map((value) => (
             <button key={value} type="button" aria-pressed={speed === value} onClick={() => setSpeed(value)}>
               {value}×
@@ -199,7 +201,7 @@ function Replay({ replay, blueLine }: { replay: GoalReplay; blueLine: number }) 
         </div>
       </div>
       <p className="rd-replay-caption" aria-live="polite">
-        {current && captionText(current, replay.players)}
+        {current && captionText(current, replay.players, t.replay.captions)}
       </p>
     </>
   );
@@ -218,6 +220,7 @@ export function GoalReplayDialog({
   onSelect: (index: number) => void;
   onClose: () => void;
 }) {
+  const { t } = useLanguage();
   const dialog = useRef<HTMLDialogElement>(null);
   const goal = index === null ? null : goals[index];
 
@@ -231,7 +234,7 @@ export function GoalReplayDialog({
     <dialog
       ref={dialog}
       className="rd-replay"
-      aria-label="Goal replay"
+      aria-label={t.replay.dialog}
       onClose={onClose}
       onClick={(event) => {
         if (event.target === event.currentTarget) event.currentTarget.close();
@@ -246,8 +249,8 @@ export function GoalReplayDialog({
               </span>
               <div className="rd-replay-title-text">
                 <p className="rd-replay-kicker">
-                  {periodLabels[goal.row.period - 1]} · {goal.row.time}
-                  {goalNotes(goal.row).map((note) => (
+                  {t.periods[goal.row.period - 1]} · {goal.row.time}
+                  {goalNotes(goal.row, t.flow).map((note) => (
                     <span key={note} className="rd-kicker">
                       {note}
                     </span>
@@ -270,15 +273,15 @@ export function GoalReplayDialog({
                 </p>
               </div>
             </div>
-            <nav className="rd-replay-actions" aria-label="Goal replay">
-              <IconButton icon="previous" label="Previous goal" disabled={index === 0} onClick={() => onSelect(index - 1)} />
+            <nav className="rd-replay-actions" aria-label={t.replay.dialog}>
+              <IconButton icon="previous" label={t.replay.previous} disabled={index === 0} onClick={() => onSelect(index - 1)} />
               <IconButton
                 icon="next"
-                label="Next goal"
+                label={t.replay.next}
                 disabled={index === goals.length - 1}
                 onClick={() => onSelect(index + 1)}
               />
-              <IconButton icon="close" label="Close replay" onClick={onClose} />
+              <IconButton icon="close" label={t.replay.close} onClick={onClose} />
             </nav>
           </header>
 

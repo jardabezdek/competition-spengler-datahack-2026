@@ -1,8 +1,6 @@
-import { stories } from "@/lib/game";
+import { stories, type Story } from "@/lib/game";
 
-export function MatchStory({ kind }: { kind: "report" | "preview" }) {
-  const story = stories[kind];
-
+export function MatchStory({ kind, story = stories[kind] }: { kind: "report" | "preview"; story?: Story }) {
   return (
     <article className="story">
       <h2>{story.title}</h2>

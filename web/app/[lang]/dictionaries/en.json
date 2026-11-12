@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "title": "U.S. Collegiate Selects vs. HC Davos | Spengler Cup",
+    "description": "Game center for the Spengler Cup final on 31 December 2025."
+  },
+  "header": {
+    "puckDrop": "Puck drop in",
+    "units": ["d", "h", "m", "s"],
+    "timedBy": "timed by",
+    "countdown": "Countdown to the first game on 26 December 2026 at 15:10 CET",
+    "language": "Language",
+    "mainNav": "Main",
+    "menu": [
+      {
+        "label": "The Tournament",
+        "items": ["News", "Games & Standing", "Teams", "Rules & Format", "Ceremonies & Awards", "History", "Hall of Fame"]
+      },
+      {
+        "label": "Your visit",
+        "items": ["Kombi-Tickets", "VIP-Offers", "Arrival", "Catering & Public Viewing", "Entertainment"]
+      },
+      {
+        "label": "Media",
+        "items": ["Livestream", "Spengler Cup Today", "Yearbooks", "Information for media representatives"]
+      },
+      {
+        "label": "About us",
+        "items": ["Facts & Figures", "Sponsors & Partners", "Sustainability", "Contact"]
+      }
+    ],
+    "search": "Search",
+    "searchPlaceholder": "Search news, teams and players",
+    "searchLabel": "Search the site",
+    "closeSearch": "Close search",
+    "popular": "Popular",
+    "popularItems": ["Games & Standing", "Teams", "Kombi-Tickets", "Livestream"],
+    "menuLabel": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "shop": "Fanshop",
+    "tickets": "Tickets",
+    "ticketsUrl": "https://www.spenglercup.ch/en/tickets"
+  },
+  "hero": {
+    "finalScore": "Final score",
+    "end": "End"
+  },
+  "center": {
+    "gameCenter": "Game center",
+    "partners": "Partners",
+    "tabs": {
+      "overview": "Overview",
+      "lineup": "Lineup",
+      "team": "Team stats",
+      "stats": "Player stats",
+      "story": "Report & Preview"
+    },
+    "report": "Match report",
+    "preview": "Preview",
+    "stories": {
+      "report": {
+        "title": "HC Davos crowned record Spengler Cup champion",
+        "paragraphs": [
+          "Davos won the final of the 97th Spengler Cup 6:3 and collected a 17th tournament title.",
+          "The game was tied 3:3 after two periods. Filip Zadina, Enzo Corvi and Matej Stransky scored in the closing minutes."
+        ],
+        "linkLabel": "Read the full report on spenglercup.ch",
+        "href": "https://www.spenglercup.ch/en/game/spengler-cup/playoff-final/2025-12-31_us-collegiate-selects_hc-davos#report"
+      },
+      "preview": {
+        "title": "Youthful energy versus seasoned veterans",
+        "paragraphs": [
+          "The preview set up a New Year’s Eve final between hosts HC Davos and the U.S. Collegiate Selects, in Davos for the first time.",
+          "The college team had already beaten Davos 5:3 on 27 December, so the final was a rematch."
+        ],
+        "linkLabel": "Read the full preview on spenglercup.ch",
+        "href": "https://www.spenglercup.ch/en/game/spengler-cup/playoff-final/2025-12-31_us-collegiate-selects_hc-davos#preview"
+      }
+    }
+  },
+  "periods": ["1st period", "2nd period", "3rd period"],
+  "flow": {
+    "powerPlay": "Power play",
+    "emptyNet": "Empty net",
+    "penalties": {
+      "delay": "Delay of game"
+    },
+    "replayTipTitle": "Watch goal replay",
+    "replayTip": "See the play that led to the goal, player by player, on the rink.",
+    "replayLabel": "Watch the replay of {shooter}'s goal, {score}"
+  },
+  "replay": {
+    "dialog": "Goal replay",
+    "rink": "Top-down replay of the goal",
+    "play": "Play replay",
+    "pause": "Pause replay",
+    "position": "Replay position",
+    "gameTime": "Game time {clock}",
+    "speed": "Playback speed",
+    "previous": "Previous goal",
+    "next": "Next goal",
+    "close": "Close replay",
+    "captions": {
+      "faceoff": "{who} wins the faceoff",
+      "pass": "{who} passes to {target}",
+      "passIntercepted": "{who}'s pass is intercepted",
+      "passMissed": "{who}'s pass misses its target",
+      "entry": "{who} carries the puck into the zone",
+      "exit": "{who} carries the puck out of the zone",
+      "dump": "{who} dumps the puck",
+      "clear": "{who} clears the puck",
+      "goal": "Goal! {who} scores",
+      "saved": "{who}'s shot is saved",
+      "blocked": "{who}'s shot is blocked",
+      "missed": "{who} misses the net"
+    }
+  },
+  "lineup": {
+    "line": "Line",
+    "lines": { "1": "1st Line", "2": "2nd Line", "3": "3rd Line", "4": "4th Line", "subs": "Substitutes" },
+    "onRink": "{line} on the rink"
+  },
+  "teamStats": {
+    "period": "Period",
+    "periods": { "all": "Game", "1": "1st Period", "2": "2nd Period", "3": "3rd Period" },
+    "about": "About {label}"
+  },
+  "playerStats": {
+    "team": "Team",
+    "player": "Player",
+    "groups": {
+      "F": "Forwards",
+      "D": "Defenders",
+      "G": "Goalies"
+    }
+  }
+}

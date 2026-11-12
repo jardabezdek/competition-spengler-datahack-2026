@@ -1,3 +1,6 @@
+"use client";
+
+import { useLanguage } from "@/components/redesign/language";
 import { game, logos, sides, type Side } from "@/lib/game";
 import { score } from "@/lib/timeline";
 
@@ -13,8 +16,9 @@ function Team({ side }: { side: Side }) {
 }
 
 export function RedesignHero() {
+  const { t } = useLanguage();
   return (
-    <section className="rd-hero" aria-label="Final score">
+    <section className="rd-hero" aria-label={t.hero.finalScore}>
       <div className="rd-hero-bg" aria-hidden="true">
         <span className="rd-glow" />
       </div>
@@ -29,12 +33,12 @@ export function RedesignHero() {
         <div className="rd-matchup">
           <Team side="home" />
           <div className="rd-board">
-            <p className="rd-score" aria-label={`Final score ${game.score}`}>
+            <p className="rd-score" aria-label={`${t.hero.finalScore} ${game.score}`}>
               {sides.map((side, index) => (
                 <span key={side}>{score[index]}</span>
               ))}
             </p>
-            <p className="rd-end">End</p>
+            <p className="rd-end">{t.hero.end}</p>
           </div>
           <Team side="away" />
         </div>

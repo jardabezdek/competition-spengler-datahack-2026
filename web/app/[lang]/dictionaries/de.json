@@ -1,0 +1,277 @@
+{
+  "meta": {
+    "title": "U.S. Collegiate Selects vs. HC Davos | Spengler Cup",
+    "description": "Game Center zum Spengler-Cup-Final vom 31. Dezember 2025."
+  },
+  "header": {
+    "puckDrop": "Spielbeginn in",
+    "units": ["T", "h", "min", "s"],
+    "timedBy": "Zeitmessung",
+    "countdown": "Countdown bis zum ersten Spiel am 26. Dezember 2026 um 15:10 Uhr MEZ",
+    "language": "Sprache",
+    "mainNav": "Hauptnavigation",
+    "menu": [
+      {
+        "label": "Das Turnier",
+        "items": [
+          "News",
+          "Spiele & Rangliste",
+          "Teams",
+          "Reglement & Modus",
+          "Zeremonien & Auszeichnungen",
+          "Geschichte",
+          "Hall of Fame"
+        ]
+      },
+      {
+        "label": "Ihr Besuch",
+        "items": ["Kombi-Tickets", "VIP-Angebote", "Anreise", "Gastronomie & Public Viewing", "Unterhaltung"]
+      },
+      {
+        "label": "Medien",
+        "items": ["Livestream", "Spengler Cup Today", "Jahrbücher", "Informationen für Medienschaffende"]
+      },
+      {
+        "label": "Über uns",
+        "items": ["Zahlen & Fakten", "Sponsoren & Partner", "Nachhaltigkeit", "Kontakt"]
+      }
+    ],
+    "search": "Suche",
+    "searchPlaceholder": "News, Teams und Spieler suchen",
+    "searchLabel": "Website durchsuchen",
+    "closeSearch": "Suche schliessen",
+    "popular": "Beliebt",
+    "popularItems": ["Spiele & Rangliste", "Teams", "Kombi-Tickets", "Livestream"],
+    "menuLabel": "Menü",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schliessen",
+    "shop": "Fanshop",
+    "tickets": "Tickets",
+    "ticketsUrl": "https://www.spenglercup.ch/de/tickets"
+  },
+  "hero": {
+    "finalScore": "Schlussresultat",
+    "end": "Spielende"
+  },
+  "center": {
+    "gameCenter": "Game Center",
+    "partners": "Partner",
+    "tabs": {
+      "overview": "Übersicht",
+      "lineup": "Aufstellung",
+      "team": "Teamstatistik",
+      "stats": "Spielerstatistik",
+      "story": "Bericht & Vorschau"
+    },
+    "report": "Spielbericht",
+    "preview": "Vorschau",
+    "stories": {
+      "report": {
+        "title": "HC Davos ist Spengler-Cup-Rekordsieger",
+        "paragraphs": [
+          "Davos gewann den Final des 97. Spengler Cups 6:3 und holte sich den 17. Turniersieg.",
+          "Nach zwei Dritteln stand es 3:3. Filip Zadina, Enzo Corvi und Matej Stransky trafen in den Schlussminuten."
+        ],
+        "linkLabel": "Den ganzen Bericht auf spenglercup.ch lesen",
+        "href": "https://www.spenglercup.ch/de/game/spengler-cup/playoff-final/2025-12-31_us-collegiate-selects_hc-davos#report"
+      },
+      "preview": {
+        "title": "Jugendliche Energie gegen erfahrene Routiniers",
+        "paragraphs": [
+          "Die Vorschau kündigte einen Silvester-Final zwischen Gastgeber HC Davos und den U.S. Collegiate Selects an, die zum ersten Mal in Davos spielten.",
+          "Das College-Team hatte Davos bereits am 27. Dezember 5:3 geschlagen, der Final war also eine Revanche."
+        ],
+        "linkLabel": "Die ganze Vorschau auf spenglercup.ch lesen",
+        "href": "https://www.spenglercup.ch/de/game/spengler-cup/playoff-final/2025-12-31_us-collegiate-selects_hc-davos#preview"
+      }
+    }
+  },
+  "periods": ["1. Drittel", "2. Drittel", "3. Drittel"],
+  "flow": {
+    "powerPlay": "Powerplay",
+    "emptyNet": "Leeres Tor",
+    "penalties": {
+      "delay": "Spielverzögerung",
+      "slashing": "Stockschlag",
+      "high-sticking": "Hoher Stock",
+      "cross-checking": "Check mit dem Stock",
+      "hooking": "Haken",
+      "tripping": "Beinstellen",
+      "holding": "Halten",
+      "interference": "Behinderung",
+      "roughing": "Unnötige Härte",
+      "boarding": "Check gegen die Bande",
+      "elbowing": "Ellbogencheck",
+      "kneeing": "Kniecheck",
+      "charging": "Unerlaubter Körperangriff",
+      "too-many-men": "Zu viele Spieler auf dem Eis",
+      "unsportsmanlike": "Unsportliches Verhalten"
+    },
+    "replayTipTitle": "Tor-Replay ansehen",
+    "replayTip": "Der Spielzug, der zum Tor führte, Spieler für Spieler auf dem Eis.",
+    "replayLabel": "Replay des Tors von {shooter} ansehen, {score}"
+  },
+  "replay": {
+    "dialog": "Tor-Replay",
+    "rink": "Replay des Tors von oben",
+    "play": "Replay abspielen",
+    "pause": "Replay pausieren",
+    "position": "Position im Replay",
+    "gameTime": "Spielzeit {clock}",
+    "speed": "Wiedergabegeschwindigkeit",
+    "previous": "Vorheriges Tor",
+    "next": "Nächstes Tor",
+    "close": "Replay schliessen",
+    "captions": {
+      "faceoff": "{who} gewinnt das Bully",
+      "pass": "{who} passt zu {target}",
+      "passIntercepted": "Der Pass von {who} wird abgefangen",
+      "passMissed": "Der Pass von {who} kommt nicht an",
+      "entry": "{who} fährt mit dem Puck in die Zone",
+      "exit": "{who} fährt mit dem Puck aus der Zone",
+      "dump": "{who} spielt den Puck tief",
+      "clear": "{who} befreit die Zone",
+      "goal": "Tor! {who} trifft",
+      "saved": "Der Schuss von {who} wird gehalten",
+      "blocked": "Der Schuss von {who} wird geblockt",
+      "missed": "{who} verfehlt das Tor"
+    }
+  },
+  "lineup": {
+    "line": "Linie",
+    "lines": { "1": "1. Linie", "2": "2. Linie", "3": "3. Linie", "4": "4. Linie", "subs": "Ersatz" },
+    "onRink": "{line} auf dem Eis"
+  },
+  "teamStats": {
+    "period": "Drittel",
+    "periods": { "all": "Spiel", "1": "1. Drittel", "2": "2. Drittel", "3": "3. Drittel" },
+    "about": "Über {label}",
+    "stats": {
+      "SOG": {
+        "label": "Schüsse aufs Tor",
+        "description": "Schüsse des Teams, die der Torhüter hielt oder die zum Tor führten. Schüsse neben das Tor und geblockte Schüsse zählen nicht."
+      },
+      "XG": {
+        "label": "Erwartete Tore",
+        "description": "Summe der erwarteten Tore (xG) aller Abschlussversuche des Teams, auch der Schüsse neben das Tor und der geblockten. Ein höherer Wert bedeutet bessere Torchancen."
+      },
+      "GAx": {
+        "label": "Tore über Erwartung",
+        "description": "Erzielte Tore minus erwartete Tore. Ein positiver Wert bedeutet, dass das Team mehr Tore schoss, als die Qualität seiner Schüsse erwarten liess."
+      },
+      "PP%": {
+        "label": "Powerplay %",
+        "description": "Powerplay-Tore geteilt durch Powerplay-Gelegenheiten."
+      },
+      "PIM": {
+        "label": "Strafminuten",
+        "description": "Strafminuten des Teams: 2 Minuten für jede Strafe, auch für Bankstrafen wie Spielverzögerung."
+      },
+      "FO%": {
+        "label": "Bully %",
+        "description": "Anteil der Bullys, die das Team gewann."
+      },
+      "TK": {
+        "label": "Puckeroberungen",
+        "description": "Umkämpfte Puckduelle, die das Team gewinnt, nachdem der Gegner den Puck hatte."
+      },
+      "GV": {
+        "label": "Puckverluste",
+        "description": "Ungezwungene Puckverluste: abgefangene Pässe und abgefangene Befreiungsschläge."
+      },
+      "CZE": {
+        "label": "Kontrollierte Eintritte",
+        "description": "Überquerungen der offensiven blauen Linie in Richtung Gegner mit dem Puck am Stock. Eingeschossene Pucks zählen nicht."
+      },
+      "CZX": {
+        "label": "Kontrollierte Austritte",
+        "description": "Überquerungen der eigenen blauen Linie in Richtung Gegner mit dem Puck am Stock."
+      },
+      "BKS": {
+        "label": "Geblockte Schüsse",
+        "description": "Anzahl der gegnerischen Schüsse, die das Team blockte."
+      },
+      "SV%": {
+        "label": "Fangquote",
+        "description": "Paraden geteilt durch Schüsse aufs Tor."
+      },
+      "XGA": {
+        "label": "Erwartete Gegentore",
+        "description": "Summe der erwarteten Tore aus den Schüssen aufs Tor, die der Torhüter des Teams abwehren musste."
+      },
+      "GSAx": {
+        "label": "Paraden über Erwartung",
+        "description": "Erwartete Gegentore minus die Tore, die der Torhüter zuliess. Ein positiver Wert bedeutet, dass der Torhüter mehr hielt, als die Qualität der Schüsse erwarten liess."
+      }
+    }
+  },
+  "playerStats": {
+    "team": "Team",
+    "player": "Spieler",
+    "groups": {
+      "F": "Stürmer",
+      "D": "Verteidiger",
+      "G": "Torhüter"
+    },
+    "columns": {
+      "toi": "EZ",
+      "goals": "T",
+      "points": "P",
+      "pim": "SM"
+    },
+    "notes": {
+      "toi": { "label": "Eiszeit", "description": "Eiszeit als MM:SS." },
+      "shifts": { "label": "Shifts", "description": "Anzahl Shifts." },
+      "goals": { "label": "Tore", "description": "Erzielte Tore." },
+      "assists": { "label": "Assists", "description": "Erste und zweite Assists." },
+      "points": { "label": "Punkte", "description": "Tore plus Assists." },
+      "plusMinus": {
+        "label": "Plus/Minus",
+        "description": "Tore für minus Tore gegen, während der Spieler auf dem Eis stand."
+      },
+      "pim": { "label": "Strafminuten", "description": "2 Minuten für jede Strafe des Spielers." },
+      "shots": {
+        "label": "Abschlussversuche",
+        "description": "Alle Schüsse des Spielers: aufs Tor, neben das Tor und geblockt."
+      },
+      "shotsOnGoal": {
+        "label": "Schüsse aufs Tor",
+        "description": "Schüsse des Spielers, die gehalten wurden oder zum Tor führten."
+      },
+      "xg": {
+        "label": "Erwartete Tore",
+        "description": "Summe der erwarteten Tore (xG) aller Abschlussversuche des Spielers."
+      },
+      "blockedShots": { "label": "Geblockte Schüsse", "description": "Gegnerische Schüsse, die der Spieler blockte." },
+      "faceoffPct": { "label": "Bully %", "description": "Anteil der Bullys des Spielers, die er gewann." },
+      "takeaways": {
+        "label": "Puckeroberungen",
+        "description": "Umkämpfte Puckduelle, die das Team des Spielers gewinnt, nachdem der Gegner den Puck hatte. Sie werden dem Spieler angerechnet, der mit dem Puck aus dem Duell kommt."
+      },
+      "giveaways": {
+        "label": "Puckverluste",
+        "description": "Pässe und Befreiungsschläge des Spielers, die abgefangen wurden."
+      },
+      "controlledEntries": {
+        "label": "Kontrollierte Eintritte",
+        "description": "Überquerungen der offensiven blauen Linie in Richtung Gegner mit dem Puck am Stock des Spielers."
+      },
+      "controlledExits": {
+        "label": "Kontrollierte Austritte",
+        "description": "Überquerungen der eigenen blauen Linie in Richtung Gegner mit dem Puck am Stock des Spielers."
+      },
+      "shotsAgainst": { "label": "Schüsse gegen", "description": "Schüsse aufs Tor, die der Torhüter abwehren musste." },
+      "saves": { "label": "Paraden", "description": "Schüsse aufs Tor, die der Torhüter hielt." },
+      "goalsAgainst": { "label": "Gegentore", "description": "Tore, die der Torhüter zuliess." },
+      "xgAgainst": {
+        "label": "Erwartete Gegentore",
+        "description": "Summe der erwarteten Tore aus den Schüssen aufs Tor, die der Torhüter abwehren musste."
+      },
+      "savesAboveExpected": {
+        "label": "Paraden über Erwartung",
+        "description": "Erwartete Gegentore minus Gegentore."
+      },
+      "savePct": { "label": "Fangquote", "description": "Paraden geteilt durch Schüsse gegen." }
+    }
+  }
+}
