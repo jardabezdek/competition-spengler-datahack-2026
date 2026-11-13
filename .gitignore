@@ -224,9 +224,10 @@ __marimo__/
 data/*
 !data/synthetic/
 
-# docs/ folder: ignore everything except the data dictionary
+# docs/ folder
 docs/*
 !docs/data_dictionary.md
+!docs/submission_slides.pdf
 
 # macOS files
 *.DS_Store
